@@ -1,0 +1,624 @@
+/**
+ * Book Details Page Component - Individual Book Information
+ * 
+ * PURPOSE:
+ * Displays comprehensive information about a single book.
+ * Users can view all details and reserve the book if available.
+ * 
+ * FEATURES:
+ * 1. Dynamic routing - Gets book ID from URL
+ * 2. Full book information display
+ * 3. Conditional Reserve button based on availability
+ * 4. Mock available date for borrowed books
+ * 5. Add to cart functionality with alert feedback
+ * 
+ * KEY CONCEPTS FOR VIVA:
+ * - useParams: Extracting route parameters from URL
+ * - Dynamic routing: /book/:id where :id is variable
+ * - Conditional rendering: Different UI based on book status
+ * - Date manipulation: Calculating future dates
+ * - Context integration: Using BookContext for data and cart
+ */
+
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Star, CheckCircle, XCircle, Calendar, BookOpen, User, Hash, Tag, Heart, Building2, CalendarDays, FileText } from 'lucide-react';
+import { useBooks } from '../context/BookContext';
+import { useWishlist } from '../context/WishlistContext';
+
+function BookDetails() {
+  /**
+   * STEP 1: Get Book ID from URL
+   * 
+   * useParams Hook:
+   * Extracts dynamic parameters from URL route.
+   * 
+   * Example:
+   * Route definition: /book/:id
+   * Current URL: /book/12
+   * useParams() returns: { id: '12' }
+   * 
+   * We destructure to get just the id:
+   * const { id } = useParams();
+   * 
+   * WHY: Allows dynamic pages based on URL parameter
+   */
+  const { id } = useParams();
+  
+  /**
+   * Navigation Hook
+   * For "Back" button to return to previous page
+   */
+  const navigate = useNavigate();
+
+  /**
+   * STEP 2: Get Book Data and Cart Functions from Context
+   * 
+   * - getBookById: Function to find book by ID
+   * - addToCart: Function to add book to cart
+   * - isInCart: Function to check if book is already in cart
+   */
+  const { getBookById, addToCart, isInCart } = useBooks();
+
+  /**
+   * Get Wishlist Functions from Context
+   * 
+   * - toggleWishlist: Function to add/remove book from wishlist
+   * - isInWishlist: Function to check if book is in wishlist
+   */
+  const { toggleWishlist, isInWishlist } = useWishlist();
+
+  /**
+   * STEP 3: Find the Specific Book
+   * 
+   * getBookById(id) searches books array for matching ID.
+   * Returns book object if found, undefined if not found.
+   * 
+   * Type Conversion:
+   * URL params are strings, book IDs are numbers.
+   * getBookById handles conversion internally.
+   */
+  const book = getBookById(id);
+
+  /**
+   * STEP 4: Handle Book Not Found
+   * 
+   * If book is undefined (not found), show error message.
+   * Prevents errors from trying to access properties of undefined.
+   * 
+   * Early return pattern: Exit function early if condition met.
+   */
+  if (!book) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center py-12">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+            Book Not Found
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            The book you're looking for doesn't exist or has been removed.
+          </p>
+          <button
+            onClick={() => navigate('/browse')}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Browse All Books
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  /**
+   * STEP 5: Check Availability Status
+   * 
+   * Book is available if:
+   * 1. Status is "Available" (not "Borrowed")
+   * 2. At least one copy is available (copiesAvailable > 0)
+   * 
+   * Boolean logic with AND operator (&&)
+   */
+  const isAvailable = book.status === 'Available' && book.copiesAvailable > 0;
+
+  /**
+   * Check if book is already in cart
+   */
+  const inCart = isInCart(book.id);
+
+  /**
+   * Check if book is in wishlist
+   */
+  const inWishlist = isInWishlist(book.id);
+
+  /**
+   * STEP 6: Calculate Mock Available Date
+   * 
+   * For borrowed books, show when they'll be available.
+   * Mock logic: Available in 7 days from today.
+   * 
+   * Date Calculation:
+   * 1. new Date() - Get current date/time
+   * 2. getTime() - Convert to milliseconds since epoch
+   * 3. Add 7 days in milliseconds (7 * 24 * 60 * 60 * 1000)
+   * 4. new Date(milliseconds) - Convert back to Date object
+   * 5. toLocaleDateString() - Format as readable date
+   * 
+   * Example:
+   * Today: November 21, 2025
+   * availableDate: November 28, 2025
+   */
+  const availableDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  /**
+   * STEP 7: Handle Reserve Button Click
+   * 
+   * When user clicks "Reserve Book":
+   * 1. Call addToCart with book object
+   * 2. Get result (success/failure message)
+   * 3. Show alert with message
+   * 
+   * addToCart returns: { success: boolean, message: string }
+   * 
+   * Alert is simple feedback mechanism (could be replaced with toast notification)
+   */
+  const handleReserve = () => {
+    const result = addToCart(book);
+    if (result.success) {
+      alert('✅ Book Reserved! Check "My Reservations" to confirm.');
+    } else {
+      alert(`⚠️ ${result.message}`);
+    }
+  };
+
+  /**
+   * Handle Toggle Wishlist
+   * 
+   * Adds or removes book from wishlist.
+   * Shows alert with action taken.
+   */
+  const handleToggleWishlist = () => {
+    const result = toggleWishlist(book);
+    if (result.success) {
+      alert(result.message);
+    }
+  };
+
+  /**
+   * Render Star Rating
+   * 
+   * Same logic as BookCard component.
+   * Converts numeric rating to visual star display.
+   */
+  const renderStars = () => {
+    const stars = [];
+    const fullStars = Math.floor(book.rating);
+    const hasHalfStar = book.rating % 1 !== 0;
+
+    // Full stars
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <Star key={`full-${i}`} size={20} className="fill-yellow-400 text-yellow-400" />
+      );
+    }
+
+    // Half star
+    if (hasHalfStar) {
+      stars.push(
+        <Star key="half" size={20} className="fill-yellow-400 text-yellow-400 opacity-50" />
+      );
+    }
+
+    // Empty stars
+    const remainingStars = 5 - Math.ceil(book.rating);
+    for (let i = 0; i < remainingStars; i++) {
+      stars.push(
+        <Star key={`empty-${i}`} size={20} className="text-gray-300 dark:text-gray-600" />
+      );
+    }
+
+    return stars;
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      
+      {/* 
+        Back Button
+        - Returns to previous page (usually Browse)
+        - navigate(-1) goes back one step in history
+      */}
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline mb-6"
+      >
+        <ArrowLeft size={20} />
+        <span>Back to Browse</span>
+      </button>
+
+      {/* 
+        ===== BOOK DETAILS LAYOUT =====
+        
+        Two-column layout:
+        - Left: Book cover image
+        - Right: Book information
+        
+        Responsive:
+        - Mobile: Stacked (flex-col)
+        - Desktop: Side by side (lg:flex-row)
+      */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        
+        {/* 
+          ===== LEFT COLUMN: BOOK COVER =====
+        */}
+        <div className="lg:w-1/3">
+          <div className="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg">
+            {/* 
+              Book Cover Image
+              - aspect-[3/4]: Maintains 3:4 aspect ratio (standard book)
+              - object-cover: Fills space while maintaining aspect ratio
+            */}
+            <img
+              src={book.coverUrl}
+              alt={`${book.title} cover`}
+              className="w-full aspect-[3/4] object-cover"
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/300x400?text=No+Cover';
+              }}
+            />
+            
+            {/* 
+              Availability Badge (Overlay)
+              - Positioned at top right of cover
+              - Green if available, red if borrowed
+            */}
+            <div className={`absolute top-4 right-4 px-3 py-2 rounded-full text-sm font-semibold flex items-center space-x-2 ${
+              isAvailable 
+                ? 'bg-green-500 text-white' 
+                : 'bg-red-500 text-white'
+            }`}>
+              {isAvailable ? (
+                <>
+                  <CheckCircle size={18} />
+                  <span>Available</span>
+                </>
+              ) : (
+                <>
+                  <XCircle size={18} />
+                  <span>Borrowed</span>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* 
+          ===== RIGHT COLUMN: BOOK INFORMATION =====
+        */}
+        <div className="lg:w-2/3">
+          
+          {/* Category Badge */}
+          <div className="mb-4">
+            <span className="inline-flex items-center space-x-1 px-3 py-1 text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900 rounded-full">
+              <Tag size={16} />
+              <span>{book.category}</span>
+            </span>
+          </div>
+
+          {/* Book Title */}
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+            {book.title}
+          </h1>
+
+          {/* Author */}
+          <div className="flex items-center space-x-2 text-lg text-gray-600 dark:text-gray-400 mb-4">
+            <User size={20} />
+            <span>by {book.author}</span>
+          </div>
+
+          {/* 
+            Rating Display
+            - Stars + numeric rating
+          */}
+          <div className="flex items-center space-x-2 mb-6">
+            <div className="flex items-center space-x-1">
+              {renderStars()}
+            </div>
+            <span className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+              {book.rating.toFixed(1)}
+            </span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              out of 5
+            </span>
+          </div>
+
+          {/* 
+            Book Metadata Grid
+            - ISBN, Publisher, Publication Year, Page Count, and Copies Available
+            - Responsive: 1 or 2 columns on mobile, up to 3 columns on desktop
+          */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            
+            {/* ISBN */}
+            <div className="flex items-center space-x-2">
+              <Hash size={20} className="text-gray-400" />
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">ISBN</p>
+                <p className="font-semibold text-gray-800 dark:text-gray-200">{book.isbn}</p>
+              </div>
+            </div>
+
+            {/* Publisher */}
+            <div className="flex items-center space-x-2">
+              <Building2 size={20} className="text-gray-400" />
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Publisher</p>
+                <p className="font-semibold text-gray-800 dark:text-gray-200">{book.publisher}</p>
+              </div>
+            </div>
+
+            {/* Publication Year */}
+            <div className="flex items-center space-x-2">
+              <CalendarDays size={20} className="text-gray-400" />
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Published</p>
+                <p className="font-semibold text-gray-800 dark:text-gray-200">{book.publicationYear}</p>
+              </div>
+            </div>
+
+            {/* Page Count */}
+            <div className="flex items-center space-x-2">
+              <FileText size={20} className="text-gray-400" />
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Pages</p>
+                <p className="font-semibold text-gray-800 dark:text-gray-200">{book.pageCount}</p>
+              </div>
+            </div>
+
+            {/* Copies Available */}
+            <div className="flex items-center space-x-2">
+              <BookOpen size={20} className="text-gray-400" />
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Copies Available</p>
+                <p className="font-semibold text-gray-800 dark:text-gray-200">
+                  {book.copiesAvailable} {book.copiesAvailable === 1 ? 'copy' : 'copies'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 
+            Book Description
+            - Full description text
+          */}
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+              Description
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+              {book.description}
+            </p>
+          </div>
+
+          {/* 
+            User Reviews Section
+            - Display all reviews for this book
+            - Shows username, rating, comment, and date
+          */}
+          {book.reviews && book.reviews.length > 0 && (
+            <div className="mb-6">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+                User Reviews ({book.reviews.length})
+              </h2>
+              <div className="space-y-4">
+                {book.reviews.map((review, index) => (
+                  <div 
+                    key={index}
+                    className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"
+                  >
+                    {/* Review Header: Username and Date */}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center space-x-2">
+                        <User size={18} className="text-gray-400" />
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">
+                          {review.username}
+                        </span>
+                      </div>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
+                        {new Date(review.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric'
+                        })}
+                      </span>
+                    </div>
+
+                    {/* Review Rating Stars */}
+                    <div className="flex items-center space-x-1 mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={16}
+                          className={
+                            i < review.rating
+                              ? 'fill-yellow-400 text-yellow-400'
+                              : 'text-gray-300 dark:text-gray-600'
+                          }
+                        />
+                      ))}
+                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-2">
+                        {review.rating}/5
+                      </span>
+                    </div>
+
+                    {/* Review Comment */}
+                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                      {review.comment}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 
+            ===== CONDITIONAL RESERVE BUTTON =====
+            
+            THREE STATES:
+            1. Available → Green "Reserve Book" button (enabled)
+            2. Already in cart → Gray "Already in Cart" button (disabled)
+            3. Borrowed → Red disabled button + available date message
+          */}
+          <div className="flex flex-col md:flex-row gap-4">
+            
+            {/* Wishlist Toggle Button */}
+            <button
+              onClick={handleToggleWishlist}
+              className={`flex items-center justify-center space-x-2 px-8 py-4 rounded-lg font-semibold text-lg transition-colors ${
+                inWishlist
+                  ? 'bg-red-500 text-white hover:bg-red-600'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+              }`}
+            >
+              <Heart 
+                size={24} 
+                className={inWishlist ? 'fill-white' : ''}
+              />
+              <span>{inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}</span>
+            </button>
+
+            {/* Reserve Button */}
+            {isAvailable ? (
+            /* 
+              STATE 1: Book is Available
+              - Show green Reserve button
+              - Disabled if already in cart
+            */
+            <div className="flex-1">
+              <button
+                onClick={handleReserve}
+                disabled={inCart}
+                className={`w-full px-8 py-4 rounded-lg font-semibold text-lg transition-colors ${
+                  inCart
+                    ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                    : 'bg-green-600 text-white hover:bg-green-700'
+                }`}
+              >
+                {inCart ? '✓ Already in Cart' : '📚 Reserve Book'}
+              </button>
+              {inCart && (
+                <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                  Go to "My Reservations" to confirm your reservation.
+                </p>
+              )}
+            </div>
+          ) : (
+            /* 
+              STATE 3: Book is Borrowed
+              - Show disabled button
+              - Show mock available date (7 days from today)
+              
+              Date Display:
+              - Calendar icon for visual cue
+              - availableDate calculated earlier (current date + 7 days)
+            */
+            <div className="flex-1">
+              <button
+                disabled
+                className="w-full px-8 py-4 bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-lg font-semibold text-lg cursor-not-allowed"
+              >
+                Currently Borrowed
+              </button>
+              <div className="mt-4 flex items-center space-x-2 text-gray-600 dark:text-gray-400">
+                <Calendar size={20} />
+                <span>Expected to be available by: <strong>{availableDate}</strong></span>
+              </div>
+            </div>
+          )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default BookDetails;
+
+/**
+ * VIVA EXPLANATION SUMMARY:
+ * 
+ * Q: What is useParams and how does it work?
+ * A: useParams is a React Router hook that extracts dynamic parameters from the URL.
+ *    Route: /book/:id (":id" is dynamic parameter)
+ *    URL: /book/12
+ *    useParams() returns: { id: '12' }
+ *    We destructure: const { id } = useParams()
+ *    This allows one component to display different books based on URL.
+ * 
+ * Q: How do you find the specific book?
+ * A: 1. Get book ID from URL using useParams()
+ *    2. Call getBookById(id) from BookContext
+ *    3. getBookById searches books array for matching ID
+ *    4. Returns book object if found, undefined if not found
+ *    5. If undefined, show "Book Not Found" message (early return)
+ * 
+ * Q: Explain the availability logic.
+ * A: isAvailable = book.status === 'Available' && book.copiesAvailable > 0
+ *    Both conditions must be true (AND operator):
+ *    - Status must be "Available" (not "Borrowed")
+ *    - At least 1 copy available
+ *    This prevents reserving borrowed or out-of-stock books.
+ * 
+ * Q: How is the available date calculated?
+ * A: For borrowed books, we calculate mock available date (7 days from today):
+ *    1. Date.now() - Current time in milliseconds
+ *    2. 7 * 24 * 60 * 60 * 1000 - 7 days in milliseconds
+ *    3. Date.now() + 7days - Future timestamp
+ *    4. new Date(timestamp) - Create Date object
+ *    5. toLocaleDateString() - Format as readable string
+ *    Example: Today is Nov 21 → Available Nov 28
+ * 
+ * Q: What are the three button states?
+ * A: 1. Available & not in cart → Green "Reserve Book" (enabled)
+ *    2. Available & in cart → Gray "Already in Cart" (disabled)
+ *    3. Borrowed → Gray "Currently Borrowed" (disabled) + available date
+ *    Uses conditional rendering with ternary operator.
+ * 
+ * Q: How does the Reserve button work?
+ * A: 1. User clicks "Reserve Book"
+ *    2. handleReserve() function fires
+ *    3. Calls addToCart(book) from context
+ *    4. addToCart validates (limit, duplicates, availability)
+ *    5. Returns { success, message }
+ *    6. Show alert with success or error message
+ *    7. If successful, book is added to cart
+ * 
+ * Q: What is the layout structure?
+ * A: Two-column layout using Flexbox:
+ *    - Left column (1/3 width): Book cover image
+ *    - Right column (2/3 width): Book information
+ *    Responsive:
+ *    - Mobile: Stacked vertically (flex-col)
+ *    - Desktop: Side by side (lg:flex-row)
+ * 
+ * Q: What information is displayed?
+ * A: 1. Cover image with availability badge
+ *    2. Category badge
+ *    3. Title and author
+ *    4. Star rating (visual + numeric)
+ *    5. ISBN number
+ *    6. Copies available count
+ *    7. Full description
+ *    8. Conditional reserve button
+ *    All requirements from the prompt are displayed.
+ * 
+ * Q: What is the Back button for?
+ * A: navigate(-1) goes back one step in browser history.
+ *    Usually returns to Browse page.
+ *    Alternative: navigate('/browse') goes to specific route.
+ *    -1 is more flexible (works from any previous page).
+ */
+

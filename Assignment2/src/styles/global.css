@@ -1,0 +1,56 @@
+/**
+ * Global CSS File with Tailwind CSS v4
+ * 
+ * This is the main CSS file for the BookNest application.
+ * 
+ * Tailwind CSS v4 uses a simpler @import approach:
+ * - Just one @import statement loads all Tailwind features
+ * - No need for separate base, components, utilities directives
+ * - Easier to understand for beginners
+ */
+
+/* Import Tailwind CSS v4 - includes all styles and utilities */
+@import "tailwindcss";
+
+/**
+ * Custom Global Styles
+ * Add any custom CSS that applies to the entire application here
+ */
+
+/* Ensure smooth scrolling for better user experience */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Set default font and remove default margins */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure the app takes full viewport height */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Toast Animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out forwards;
+}
