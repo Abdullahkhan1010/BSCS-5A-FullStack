@@ -30,6 +30,7 @@ import { useNavigate } from 'react-router-dom';
 import { Star, ShoppingCart, Eye, CheckCircle, XCircle, Heart } from 'lucide-react';
 import { useBooks } from '../context/BookContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useToast } from '../context/ToastContext';
 
 /**
  * BookCard Component
@@ -65,6 +66,11 @@ function BookCard({ book }) {
    * - isInWishlist: Function to check if book is in wishlist
    */
   const { toggleWishlist, isInWishlist } = useWishlist();
+
+  /**
+   * Access Toast notification function
+   */
+  const { showToast } = useToast();
 
   /**
    * Check if book is available for reservation
@@ -105,7 +111,7 @@ function BookCard({ book }) {
    */
   const handleAddToCart = () => {
     const result = addToCart(book);
-    alert(result.message);
+    showToast(result.message, result.success ? 'success' : 'error');
   };
 
   /**
@@ -315,7 +321,7 @@ function BookCard({ book }) {
           */}
           <button
             onClick={handleViewDetails}
-            className="flex-1 flex items-center justify-center space-x-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex-1 flex items-center justify-center space-x-1 px-4 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
           >
             <Eye size={18} />
             <span>View Details</span>
@@ -332,7 +338,7 @@ function BookCard({ book }) {
           <button
             onClick={handleAddToCart}
             disabled={!isAvailable || inCart}
-            className={`flex-1 flex items-center justify-center space-x-1 px-4 py-2 rounded-lg transition-colors ${
+            className={`flex-1 flex items-center justify-center space-x-1 px-4 py-2 min-h-[44px] rounded-lg transition-colors text-sm md:text-base ${
               !isAvailable || inCart
                 ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                 : 'bg-green-600 text-white hover:bg-green-700'

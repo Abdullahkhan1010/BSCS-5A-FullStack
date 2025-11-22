@@ -102,8 +102,8 @@ function Home() {
         - Mobile: Smaller text, padding
         - Tablet/Desktop: Larger text, more padding
       */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
+      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-12 md:py-16 lg:py-24">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center">
           
           {/* 
             BookOpen Icon
@@ -111,7 +111,7 @@ function Home() {
             - Centered above heading
             - mx-auto: Horizontal centering with auto margins
           */}
-          <BookOpen size={64} className="mx-auto mb-4" />
+          <BookOpen size={48} className="mx-auto mb-4 md:w-16 md:h-16" />
           
           {/* 
             Main Heading
@@ -119,7 +119,7 @@ function Home() {
             - font-bold: Heavy weight for emphasis
             - mb-4: Margin bottom for spacing
           */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 px-4">
             Welcome to BookNest
           </h1>
           
@@ -129,7 +129,7 @@ function Home() {
             - Slightly smaller text (text-lg → md:text-xl)
             - mb-8: More spacing before button
           */}
-          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg lg:text-xl mb-8 max-w-2xl mx-auto px-4">
             Your university library at your fingertips. Browse, reserve, and manage your book reservations effortlessly.
           </p>
           
@@ -150,7 +150,7 @@ function Home() {
           */}
           <button
             onClick={handleBrowseClick}
-            className="inline-flex items-center space-x-2 px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+            className="inline-flex items-center justify-center space-x-2 px-6 py-3 md:px-8 md:py-4 min-h-[44px] bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg text-sm md:text-base"
           >
             <span>Start Browsing</span>
             <ArrowRight size={20} />
@@ -162,15 +162,15 @@ function Home() {
         ===== FEATURED BOOKS SECTION =====
         Showcase of available books to encourage exploration
       */}
-      <section className="container mx-auto px-4 py-12">
+      <section className="container mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
         
         {/* 
           Section Header
           - mb-8: Space between heading and grid
           - text-center: Centered heading
         */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+        <div className="text-center mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-2">
             Featured Books
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
@@ -245,7 +245,7 @@ function Home() {
         <div className="text-center mt-8">
           <button
             onClick={handleBrowseClick}
-            className="inline-flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+            className="inline-flex items-center justify-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline font-semibold min-h-[44px] px-4 py-2"
           >
             <span>View All Books</span>
             <ArrowRight size={20} />
@@ -257,11 +257,11 @@ function Home() {
         ===== NEW ARRIVALS SECTION =====
         Showcase of most recent books added to library
       */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
-        <div className="container mx-auto px-4">
+      <section className="py-12 md:py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
               New Arrivals
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
@@ -287,7 +287,7 @@ function Home() {
           <div className="text-center mt-8">
             <button
               onClick={handleBrowseClick}
-              className="inline-flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+              className="inline-flex items-center justify-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline font-semibold min-h-[44px] px-4 py-2"
             >
               <span>Explore All Collections</span>
               <ArrowRight size={20} />

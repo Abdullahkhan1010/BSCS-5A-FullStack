@@ -1,0 +1,71 @@
+.experience {
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.experience-item {
+  margin-bottom: 25px;
+}
+
+.experience-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.job-title {
+  font-size: 1.15em;
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+  font-weight: 600;
+}
+
+.company {
+  color: #7f8c8d;
+  font-style: italic;
+  margin: 0;
+  font-size: 0.95em;
+}
+
+.experience-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.experience-right .duration {
+  margin: 0 0 3px 0;
+  color: #34495e;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.experience-right .location {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 0.85em;
+}
+
+.responsibilities {
+  list-style-type: disc;
+  padding-left: 25px;
+  margin: 10px 0;
+}
+
+.responsibilities li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  color: #34495e;
+}
+
+@media (max-width: 768px) {
+  .experience-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .experience-right {
+    text-align: left;
+  }
+}

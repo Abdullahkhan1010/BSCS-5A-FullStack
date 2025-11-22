@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+}
+
+body {
+  background-color: #ecf0f1;
+  margin: 0;
+  padding: 20px 0;
+}
+
+/* Print styles for better CV printing */
+@media print {
+  body {
+    background-color: white;
+    padding: 0;
+  }
+  
+  .App {
+    box-shadow: none;
+    max-width: 100%;
+  }
+}
+

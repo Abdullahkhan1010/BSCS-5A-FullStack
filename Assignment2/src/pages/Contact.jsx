@@ -22,8 +22,11 @@
 
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { useToast } from '../context/ToastContext';
 
 function Contact() {
+  const { showToast } = useToast();
+  
   /**
    * STEP 1: Form State Management
    * 
@@ -161,7 +164,7 @@ function Contact() {
     // Run validation
     if (validateForm()) {
       // Valid: Show success message
-      alert('✅ Message sent to Librarian! We will get back to you soon.');
+      showToast('Message sent to Librarian! We will get back to you soon.', 'success');
       
       // Clear form (reset to initial state)
       setFormData({
@@ -233,7 +236,7 @@ function Contact() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 ${
+                className={`w-full px-4 py-3 min-h-[44px] border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 text-base ${
                   errors.name 
                     ? 'border-red-500 focus:ring-red-500' 
                     : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
@@ -269,7 +272,7 @@ function Contact() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 ${
+                className={`w-full px-4 py-3 min-h-[44px] border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 text-base ${
                   errors.email 
                     ? 'border-red-500 focus:ring-red-500' 
                     : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
@@ -300,7 +303,7 @@ function Contact() {
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                className="w-full px-4 py-3 min-h-[44px] border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 text-base"
                 placeholder="What is this about?"
               />
             </div>
@@ -322,7 +325,7 @@ function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 rows={5}
-                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 resize-none ${
+                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 resize-none text-base ${
                   errors.message 
                     ? 'border-red-500 focus:ring-red-500' 
                     : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
@@ -347,7 +350,7 @@ function Contact() {
             */}
             <button
               type="submit"
-              className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+              className="w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors text-base"
             >
               <Send size={20} />
               <span>Send Message</span>

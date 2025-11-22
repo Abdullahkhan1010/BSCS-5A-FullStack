@@ -109,7 +109,6 @@ export function AuthProvider({ children }) {
   const login = (username) => {
     // Validation: Username must not be empty
     if (!username || username.trim() === '') {
-      alert('Please enter a username');
       return false;
     }
 

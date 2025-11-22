@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom';
 import { useBooks } from '../context/BookContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import {
   User,
   BookOpen,
@@ -53,8 +54,9 @@ function Dashboard() {
     markAsPickedUp
   } = useBooks();
   const { getWishlistCount } = useWishlist();
+  const { showToast } = useToast();
 
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [_currentTime, setCurrentTime] = useState(new Date());
 
   /**
    * Update current time every minute for accurate countdowns
@@ -109,13 +111,11 @@ function Dashboard() {
    * Handle extend borrowing period
    */
   const handleExtend = (reservationId) => {
-    if (window.confirm('Extend borrowing period by 7 days? This can only be done once per book.')) {
-      const result = extendBorrowingPeriod(reservationId);
-      if (result.success) {
-        alert('✅ ' + result.message);
-      } else {
-        alert('❌ ' + result.message);
-      }
+    const result = extendBorrowingPeriod(reservationId);
+    if (result.success) {
+      showToast(result.message, 'success');
+    } else {
+      showToast(result.message, 'error');
     }
   };
 
@@ -123,13 +123,11 @@ function Dashboard() {
    * Handle cancel reservation
    */
   const handleCancel = (reservationId) => {
-    if (window.confirm('Cancel this reservation? This cannot be undone.')) {
-      const result = cancelReservation(reservationId);
-      if (result.success) {
-        alert('✅ ' + result.message);
-      } else {
-        alert('❌ ' + result.message);
-      }
+    const result = cancelReservation(reservationId);
+    if (result.success) {
+      showToast(result.message, 'success');
+    } else {
+      showToast(result.message, 'error');
     }
   };
 
@@ -137,13 +135,11 @@ function Dashboard() {
    * Handle mark as picked up (for simulation/testing)
    */
   const handlePickup = (reservationId) => {
-    if (window.confirm('Mark this reservation as picked up? (Simulation for testing)')) {
-      const result = markAsPickedUp(reservationId);
-      if (result.success) {
-        alert('✅ Reservation marked as picked up! You can now test extend feature.');
-      } else {
-        alert('❌ ' + result.message);
-      }
+    const result = markAsPickedUp(reservationId);
+    if (result.success) {
+      showToast('Reservation marked as picked up! You can now test extend feature.', 'success');
+    } else {
+      showToast(result.message, 'error');
     }
   };
 
@@ -192,12 +188,12 @@ function Dashboard() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8 max-w-7xl">
       
       {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2 flex items-center">
-          <User size={32} className="mr-3" />
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2 flex items-center">
+          <User size={28} className="mr-2 md:mr-3" />
           User Dashboard
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -367,9 +363,9 @@ function Dashboard() {
                             {!item.pickedUp && (
                               <button
                                 onClick={() => handlePickup(item.reservationId)}
-                                className="flex items-center px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+                                className="flex items-center px-3 py-2 min-h-[44px] text-xs md:text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
                               >
-                                <CheckCircle size={14} className="mr-1" />
+                                <CheckCircle size={16} className="mr-1" />
                                 Mark as Picked Up
                               </button>
                             )}
@@ -378,9 +374,9 @@ function Dashboard() {
                             {!item.extended && !overdue && item.pickedUp && (
                               <button
                                 onClick={() => handleExtend(item.reservationId)}
-                                className="flex items-center px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                                className="flex items-center px-3 py-2 min-h-[44px] text-xs md:text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                               >
-                                <Plus size={14} className="mr-1" />
+                                <Plus size={16} className="mr-1" />
                                 Extend 7 Days
                               </button>
                             )}
@@ -389,9 +385,9 @@ function Dashboard() {
                             {!item.pickedUp && (
                               <button
                                 onClick={() => handleCancel(item.reservationId)}
-                                className="flex items-center px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                                className="flex items-center px-3 py-2 min-h-[44px] text-xs md:text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
                               >
-                                <Minus size={14} className="mr-1" />
+                                <Minus size={16} className="mr-1" />
                                 Cancel Reservation
                               </button>
                             )}

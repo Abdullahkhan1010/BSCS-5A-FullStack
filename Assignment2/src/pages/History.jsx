@@ -19,6 +19,7 @@
 
 import { useState } from 'react';
 import { useBooks } from '../context/BookContext';
+import { useToast } from '../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Calendar, CheckCircle, Clock, History as HistoryIcon, Trash2 } from 'lucide-react';
 
@@ -33,6 +34,7 @@ export default function History() {
     Access history functions and navigation
   */
   const { getHistory, markAsReturned, clearHistory } = useBooks();
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   /*
@@ -57,14 +59,12 @@ export default function History() {
     Parameters:
     - reservationId: ID of the reservation to mark as returned
   */
-  const handleMarkAsReturned = (reservationId) => {
-    if (window.confirm('Mark this book as returned?')) {
-      const result = markAsReturned(reservationId);
-      if (result.success) {
-        alert('✅ Book marked as returned!');
-      } else {
-        alert('❌ ' + result.message);
-      }
+  const handleReturn = (reservationId) => {
+    const result = markAsReturned(reservationId);
+    if (result.success) {
+      showToast('Book marked as returned!', 'success');
+    } else {
+      showToast(result.message, 'error');
     }
   };
 
@@ -73,13 +73,11 @@ export default function History() {
     Clears all borrowing history
   */
   const handleClearHistory = () => {
-    if (window.confirm('Are you sure you want to clear your entire borrowing history? This action cannot be undone.')) {
-      const result = clearHistory();
-      if (result.success) {
-        alert('✅ History cleared successfully!');
-      } else {
-        alert('❌ ' + result.message);
-      }
+    const result = clearHistory();
+    if (result.success) {
+      showToast('History cleared successfully!', 'success');
+    } else {
+      showToast(result.message, 'error');
     }
   };
 
@@ -166,15 +164,15 @@ export default function History() {
     Shows all borrowing history records
   */
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 md:py-12 px-4 md:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
         {/* 
           ===== PAGE HEADER =====
           Shows title and total count
         */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-white mb-2">
             Borrowing History
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -189,7 +187,7 @@ export default function History() {
         <div className="mb-6 flex flex-wrap gap-3">
           <button
             onClick={() => setFilterStatus('all')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`px-4 py-2 min-h-[44px] rounded-lg font-medium transition-colors text-sm md:text-base ${
               filterStatus === 'all'
                 ? 'bg-blue-600 text-white'
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -199,7 +197,7 @@ export default function History() {
           </button>
           <button
             onClick={() => setFilterStatus('borrowed')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`px-4 py-2 min-h-[44px] rounded-lg font-medium transition-colors text-sm md:text-base ${
               filterStatus === 'borrowed'
                 ? 'bg-orange-600 text-white'
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -209,7 +207,7 @@ export default function History() {
           </button>
           <button
             onClick={() => setFilterStatus('returned')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`px-4 py-2 min-h-[44px] rounded-lg font-medium transition-colors text-sm md:text-base ${
               filterStatus === 'returned'
                 ? 'bg-green-600 text-white'
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -222,7 +220,7 @@ export default function History() {
           {allHistory.length > 0 && (
             <button
               onClick={handleClearHistory}
-              className="ml-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
+              className="ml-auto px-4 py-2 min-h-[44px] bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2 text-sm md:text-base"
             >
               <Trash2 size={18} />
               <span>Clear History</span>
@@ -362,8 +360,8 @@ export default function History() {
                         {/* Mark as Returned Button (only for borrowed books) */}
                         {item.status === 'borrowed' && (
                           <button
-                            onClick={() => handleMarkAsReturned(item.reservationId)}
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
+                            onClick={() => handleReturn(item.reservationId)}
+                            className="px-4 py-2 min-h-[44px] bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2 text-sm md:text-base"
                           >
                             <CheckCircle size={18} />
                             <span>Mark as Returned</span>

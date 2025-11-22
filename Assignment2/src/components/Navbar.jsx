@@ -309,10 +309,10 @@ function Navbar() {
             */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden text-gray-700 dark:text-gray-300"
+              className="md:hidden text-gray-700 dark:text-gray-300 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>

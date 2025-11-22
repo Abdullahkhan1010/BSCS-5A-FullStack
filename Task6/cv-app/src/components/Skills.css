@@ -1,0 +1,31 @@
+.skills {
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.skill-category {
+  line-height: 1.8;
+  color: #34495e;
+  font-size: 0.95em;
+}
+
+.skill-category strong {
+  color: #2c3e50;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 180px;
+}
+
+@media (max-width: 768px) {
+  .skill-category strong {
+    display: block;
+    margin-bottom: 5px;
+  }
+}

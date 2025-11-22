@@ -24,6 +24,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Star, CheckCircle, XCircle, Calendar, BookOpen, User, Hash, Tag, Heart, Building2, CalendarDays, FileText } from 'lucide-react';
 import { useBooks } from '../context/BookContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useToast } from '../context/ToastContext';
 
 function BookDetails() {
   /**
@@ -167,9 +168,9 @@ function BookDetails() {
   const handleReserve = () => {
     const result = addToCart(book);
     if (result.success) {
-      alert('✅ Book Reserved! Check "My Reservations" to confirm.');
+      showToast('Book Reserved! Check "My Reservations" to confirm.', 'success');
     } else {
-      alert(`⚠️ ${result.message}`);
+      showToast(result.message, 'error');
     }
   };
 
@@ -182,7 +183,9 @@ function BookDetails() {
   const handleToggleWishlist = () => {
     const result = toggleWishlist(book);
     if (result.success) {
-      alert(result.message);
+      showToast(result.message, result.action === 'added' ? 'success' : 'info');
+    } else {
+      showToast(result.message, 'error');
     }
   };
 
@@ -223,7 +226,7 @@ function BookDetails() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
       
       {/* 
         Back Button
@@ -232,7 +235,7 @@ function BookDetails() {
       */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline mb-6"
+        className="flex items-center justify-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline mb-6 min-h-[44px] px-4 py-2"
       >
         <ArrowLeft size={20} />
         <span>Back to Browse</span>
@@ -477,14 +480,14 @@ function BookDetails() {
             {/* Wishlist Toggle Button */}
             <button
               onClick={handleToggleWishlist}
-              className={`flex items-center justify-center space-x-2 px-8 py-4 rounded-lg font-semibold text-lg transition-colors ${
+              className={`flex items-center justify-center space-x-2 px-6 md:px-8 py-3 md:py-4 min-h-[44px] rounded-lg font-semibold text-base md:text-lg transition-colors ${
                 inWishlist
                   ? 'bg-red-500 text-white hover:bg-red-600'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
               }`}
             >
               <Heart 
-                size={24} 
+                size={20} 
                 className={inWishlist ? 'fill-white' : ''}
               />
               <span>{inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}</span>
@@ -501,7 +504,7 @@ function BookDetails() {
               <button
                 onClick={handleReserve}
                 disabled={inCart}
-                className={`w-full px-8 py-4 rounded-lg font-semibold text-lg transition-colors ${
+                className={`w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] rounded-lg font-semibold text-base md:text-lg transition-colors ${
                   inCart
                     ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                     : 'bg-green-600 text-white hover:bg-green-700'
@@ -528,7 +531,7 @@ function BookDetails() {
             <div className="flex-1">
               <button
                 disabled
-                className="w-full px-8 py-4 bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-lg font-semibold text-lg cursor-not-allowed"
+                className="w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-lg font-semibold text-base md:text-lg cursor-not-allowed"
               >
                 Currently Borrowed
               </button>

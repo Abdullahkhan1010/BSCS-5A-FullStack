@@ -24,6 +24,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogIn, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 function Login() {
   /**
@@ -73,16 +74,16 @@ function Login() {
       // Redirect to home page
       navigate('/');
       
-      // Could show success message:
-      // alert(`Welcome, ${username}!`);
+      // Show success message
+      showToast(`Welcome, ${username}!`, 'success');
     } else {
       // Show error if username is empty
-      alert('Please enter a username');
+      showToast('Please enter a username', 'warning');
     }
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4">
+    <div className="min-h-[70vh] flex items-center justify-center px-4 py-8">
       
       {/* 
         Login Card Container
@@ -97,18 +98,18 @@ function Login() {
           - White background with dark mode support
           - Padding for spacing
         */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
           
           {/* 
             Header Section
             - Icon + Title + Description
             - Centered text
           */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4">
-              <LogIn className="text-blue-600 dark:text-blue-400" size={32} />
+          <div className="text-center mb-6 md:mb-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4">
+              <LogIn className="text-blue-600 dark:text-blue-400" size={28} />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
               Welcome Back
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
@@ -153,7 +154,7 @@ function Login() {
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                  className="w-full pl-10 pr-4 py-3 min-h-[44px] border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 text-base"
                   placeholder="Enter your username"
                   autoFocus
                 />
@@ -172,7 +173,7 @@ function Login() {
             <button
               type="submit"
               disabled={!username.trim()}
-              className={`w-full flex items-center justify-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
+              className={`w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] rounded-lg font-semibold transition-colors text-base ${
                 username.trim()
                   ? 'bg-blue-600 text-white hover:bg-blue-700'
                   : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'

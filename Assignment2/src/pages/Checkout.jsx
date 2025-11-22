@@ -23,6 +23,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooks } from '../context/BookContext';
+import { useToast } from '../context/ToastContext';
 import { 
   CheckCircle, 
   Calendar, 
@@ -37,12 +38,14 @@ import {
 function Checkout() {
   const navigate = useNavigate();
   const { cart, clearCart, addToHistory } = useBooks();
+  const { showToast } = useToast();
 
   /**
    * State Management
    */
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [defaultPickupDate] = useState(() => new Date(Date.now() + 24 * 60 * 60 * 1000));
 
   /**
    * Get reservation details from sessionStorage
@@ -94,7 +97,7 @@ function Checkout() {
    */
   const handleFinalConfirmation = () => {
     if (!termsAccepted) {
-      alert('❌ Please accept the terms and conditions to proceed');
+      showToast('Please accept the terms and conditions to proceed', 'warning');
       return;
     }
 
@@ -106,7 +109,7 @@ function Checkout() {
     // Get pickup date
     const pickupDate = formData.pickupDate 
       ? new Date(formData.pickupDate).toISOString()
-      : new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+      : defaultPickupDate.toISOString();
 
     // Prepare books with their details
     const reservedBooks = cart.map(book => {
@@ -189,11 +192,11 @@ function Checkout() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
+    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8 max-w-5xl">
       
       {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
           Checkout & Confirmation
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -391,7 +394,7 @@ function Checkout() {
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600 dark:text-gray-400">Pickup Date:</span>
                 <span className="font-semibold text-gray-800 dark:text-gray-200">
-                  {new Date(formData.pickupDate || Date.now() + 24 * 60 * 60 * 1000)
+                  {new Date(formData.pickupDate || defaultPickupDate)
                     .toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 </span>
               </div>
@@ -416,7 +419,7 @@ function Checkout() {
               <button
                 onClick={handleFinalConfirmation}
                 disabled={!termsAccepted || isProcessing}
-                className={`w-full flex items-center justify-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
+                className={`w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] rounded-lg font-semibold transition-colors text-base ${
                   termsAccepted && !isProcessing
                     ? 'bg-green-600 hover:bg-green-700 text-white'
                     : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
@@ -430,7 +433,7 @@ function Checkout() {
               <button
                 onClick={handleBack}
                 disabled={isProcessing}
-                className="w-full flex items-center justify-center space-x-2 px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-base"
               >
                 <ArrowLeft size={20} />
                 <span>Back to Cart</span>

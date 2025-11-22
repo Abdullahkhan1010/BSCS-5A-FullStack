@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Trash2, CheckCircle, Calendar, Clock, AlertCircle, User, Mail, IdCard } from 'lucide-react';
 import { useBooks } from '../context/BookContext';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 function Reservations() {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ function Reservations() {
    */
   const { cart, removeFromCart } = useBooks();
   const { user } = useAuth();
+  const { showToast } = useToast();
 
   /**
    * STEP 2: Manage Borrow Duration State
@@ -299,7 +301,7 @@ function Reservations() {
       delete newDurations[bookId]; // Remove property
       return newDurations;
     });
-    alert('📚 Book removed from cart');
+    showToast('Book removed from cart', 'info');
   };
 
   /**
@@ -313,7 +315,7 @@ function Reservations() {
   const handleProceedToCheckout = () => {
     // Validate form before proceeding
     if (!validateForm()) {
-      alert('❌ Please fill in all required fields correctly before proceeding to checkout.');
+      showToast('Please fill in all required fields correctly before proceeding to checkout', 'warning');
       return;
     }
 
@@ -364,11 +366,11 @@ function Reservations() {
    * STEP 10: Render Cart with Books
    */
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
       
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200">
           My Reservations
         </h1>
         <div className="flex items-center space-x-2 px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg">

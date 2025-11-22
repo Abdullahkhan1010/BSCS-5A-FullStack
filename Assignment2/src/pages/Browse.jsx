@@ -156,14 +156,14 @@ function Browse() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
       
       {/* 
         ===== PAGE HEADER =====
         Title and description of Browse page
       */}
-      <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-2">
           Browse Books
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -179,7 +179,7 @@ function Browse() {
         - Mobile: Stacked vertically (flex-col)
         - Tablet/Desktop: Side by side (md:flex-row)
       */}
-      <div className="mb-8 flex flex-col md:flex-row gap-4">
+      <div className="mb-6 md:mb-8 flex flex-col gap-4">
         
         {/* 
           SEARCH INPUT
@@ -194,10 +194,10 @@ function Browse() {
           - Enables real-time filtering
           
           Tailwind Classes:
-          - flex-1: Takes remaining space (grows to fill)
+          - w-full: Full width on mobile
           - relative: For positioning icon inside input
         */}
-        <div className="flex-1 relative">
+        <div className="w-full relative">
           {/* 
             Search Icon
             - Positioned inside input (absolute positioning)
@@ -220,7 +220,7 @@ function Browse() {
             placeholder="Search by title or author..."
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
+            className="w-full pl-10 pr-4 py-3 min-h-[44px] border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200 text-base"
           />
         </div>
 
@@ -235,9 +235,9 @@ function Browse() {
           - Dynamic options based on books data
           - Automatically adapts if categories change
         */}
-        <div className="flex items-center space-x-2 md:w-64">
+        <div className="flex items-center space-x-2">
           {/* Filter Icon */}
-          <Filter size={20} className="text-gray-400" />
+          <Filter size={20} className="text-gray-400 flex-shrink-0" />
           
           {/* 
             Select Dropdown
@@ -247,7 +247,7 @@ function Browse() {
           <select
             value={selectedCategory}
             onChange={handleCategoryChange}
-            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
+            className="flex-1 px-4 py-3 min-h-[44px] border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200 text-base"
           >
             {/* 
               Map Categories to Options

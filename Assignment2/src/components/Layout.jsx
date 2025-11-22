@@ -53,6 +53,8 @@ function Layout() {
      * Flexbox layout for sticky footer:
      * - flex flex-col: Vertical flexbox
      * - min-h-screen: Minimum height of viewport
+     * - w-full: Full width to prevent overflow
+     * - overflow-x-hidden: Prevent horizontal scroll
      * - This ensures footer stays at bottom even on short pages
      * 
      * How sticky footer works:
@@ -61,7 +63,7 @@ function Layout() {
      * 3. Footer has mt-auto (pushes to bottom)
      * Result: Footer always at bottom, even if content is short
      */
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
       
       {/* 
         ===== NAVBAR =====
@@ -78,13 +80,14 @@ function Layout() {
         
         Flexbox properties:
         - flex-1: Grow to fill available space
+        - w-full: Full width to prevent overflow
         - This pushes footer to bottom
         
         Styling:
         - bg-white/dark:bg-gray-900: Adapts to theme
         - transition-colors: Smooth theme change animation
       */}
-      <main className="flex-1 bg-white dark:bg-gray-900 transition-colors">
+      <main className="flex-1 w-full bg-white dark:bg-gray-900 transition-colors">
         {/**
          * OUTLET Component
          * 
