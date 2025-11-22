@@ -49,7 +49,8 @@ function Dashboard() {
     getTotalBorrowedCount,
     getHistory,
     extendBorrowingPeriod,
-    cancelReservation
+    cancelReservation,
+    markAsPickedUp
   } = useBooks();
   const { getWishlistCount } = useWishlist();
 
@@ -126,6 +127,20 @@ function Dashboard() {
       const result = cancelReservation(reservationId);
       if (result.success) {
         alert('✅ ' + result.message);
+      } else {
+        alert('❌ ' + result.message);
+      }
+    }
+  };
+
+  /**
+   * Handle mark as picked up (for simulation/testing)
+   */
+  const handlePickup = (reservationId) => {
+    if (window.confirm('Mark this reservation as picked up? (Simulation for testing)')) {
+      const result = markAsPickedUp(reservationId);
+      if (result.success) {
+        alert('✅ Reservation marked as picked up! You can now test extend feature.');
       } else {
         alert('❌ ' + result.message);
       }
@@ -347,7 +362,18 @@ function Dashboard() {
                           </div>
 
                           {/* Action Buttons */}
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 flex-wrap">
+                            {/* Pickup Button - Only if not picked up (for testing) */}
+                            {!item.pickedUp && (
+                              <button
+                                onClick={() => handlePickup(item.reservationId)}
+                                className="flex items-center px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+                              >
+                                <CheckCircle size={14} className="mr-1" />
+                                Mark as Picked Up
+                              </button>
+                            )}
+
                             {/* Extend Button - Only if not extended and not overdue */}
                             {!item.extended && !overdue && item.pickedUp && (
                               <button

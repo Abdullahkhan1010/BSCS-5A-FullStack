@@ -396,8 +396,8 @@ function Contact() {
                   Email Us
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  library@university.edu<br />
-                  support@university.edu
+                  abdullah.khan1010@gmail.com<br />
+                  support@booknest.com
                 </p>
               </div>
             </div>
