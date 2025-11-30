@@ -152,7 +152,7 @@ function BookCard({ book }) {
         <Star 
           key={`full-${i}`} 
           size={16} 
-          className="fill-yellow-400 text-yellow-400" 
+          className="fill-black text-black" 
         />
       );
     }
@@ -163,7 +163,7 @@ function BookCard({ book }) {
         <Star 
           key="half" 
           size={16} 
-          className="fill-yellow-400 text-yellow-400 opacity-50" 
+          className="fill-black text-black opacity-40" 
         />
       );
     }
@@ -175,7 +175,7 @@ function BookCard({ book }) {
         <Star 
           key={`empty-${i}`} 
           size={16} 
-          className="text-gray-300 dark:text-gray-600" 
+          className="text-gray-300" 
         />
       );
     }
@@ -195,7 +195,7 @@ function BookCard({ book }) {
      * - transition-transform: Smooth hover animation
      * - hover:scale-105: Slight zoom on hover (interactive feedback)
      */
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 group">
       
       {/* 
         ===== BOOK COVER IMAGE =====
@@ -203,7 +203,7 @@ function BookCard({ book }) {
         - Fallback background if image fails to load
         - object-cover: Maintains aspect ratio, crops if needed
       */}
-      <div className="relative h-64 bg-gray-200 dark:bg-gray-700">
+      <div className="relative h-72 bg-gray-100">
         <img
           src={book.coverUrl}
           alt={`${book.title} cover`}
@@ -222,12 +222,12 @@ function BookCard({ book }) {
         */}
         <button
           onClick={handleToggleWishlist}
-          className="absolute top-2 left-2 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:scale-110 transition-transform"
+          className="absolute top-3 left-3 p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-md hover:bg-white transition-all"
           title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
         >
           <Heart 
             size={20} 
-            className={inWishlist ? 'fill-red-500 text-red-500' : 'text-gray-600 dark:text-gray-300'}
+            className={inWishlist ? 'fill-red-500 text-red-500' : 'text-gray-700'}
           />
         </button>
 
@@ -237,10 +237,10 @@ function BookCard({ book }) {
           - Green if available, red if borrowed
           - Shows status with icon
         */}
-        <div className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-semibold flex items-center space-x-1 ${
+        <div className={`absolute top-3 right-3 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1 ${
           isAvailable 
-            ? 'bg-green-500 text-white' 
-            : 'bg-red-500 text-white'
+            ? 'bg-black text-white' 
+            : 'bg-gray-200 text-gray-800'
         }`}>
           {isAvailable ? (
             <>
@@ -260,11 +260,11 @@ function BookCard({ book }) {
         ===== CARD CONTENT =====
         Book information and actions
       */}
-      <div className="p-4">
+      <div className="p-5">
         
         {/* Category Badge */}
         <div className="mb-2">
-          <span className="inline-block px-2 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900 rounded">
+          <span className="inline-block px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg">
             {book.category}
           </span>
         </div>
@@ -274,12 +274,12 @@ function BookCard({ book }) {
           - Truncate if too long (line-clamp-2)
           - Shows max 2 lines with ellipsis
         */}
-        <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1 line-clamp-2">
+        <h3 className="text-lg font-bold text-black mb-1 line-clamp-2 group-hover:text-gray-700 transition-colors">
           {book.title}
         </h3>
 
         {/* Author Name */}
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        <p className="text-sm text-gray-600 mb-3">
           by {book.author}
         </p>
 
@@ -291,7 +291,7 @@ function BookCard({ book }) {
         */}
         <div className="flex items-center space-x-1 mb-3">
           {renderStars()}
-          <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+          <span className="text-sm text-gray-600 ml-2">
             {book.rating.toFixed(1)}
           </span>
         </div>
@@ -302,7 +302,7 @@ function BookCard({ book }) {
           - Only visible if book is available
         */}
         {isAvailable && (
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+          <p className="text-xs text-gray-500 mb-4">
             {book.copiesAvailable} {book.copiesAvailable === 1 ? 'copy' : 'copies'} available
           </p>
         )}
@@ -321,7 +321,7 @@ function BookCard({ book }) {
           */}
           <button
             onClick={handleViewDetails}
-            className="flex-1 flex items-center justify-center space-x-1 px-4 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
+            className="flex-1 flex items-center justify-center space-x-1.5 px-4 py-2.5 bg-black text-white rounded-xl hover:bg-gray-800 transition-all font-medium text-sm"
           >
             <Eye size={18} />
             <span>View Details</span>
@@ -338,10 +338,10 @@ function BookCard({ book }) {
           <button
             onClick={handleAddToCart}
             disabled={!isAvailable || inCart}
-            className={`flex-1 flex items-center justify-center space-x-1 px-4 py-2 min-h-[44px] rounded-lg transition-colors text-sm md:text-base ${
+            className={`flex-1 flex items-center justify-center space-x-1.5 px-4 py-2.5 rounded-xl transition-all font-medium text-sm ${
               !isAvailable || inCart
-                ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                : 'bg-green-600 text-white hover:bg-green-700'
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+                : 'bg-white text-black border-2 border-black hover:bg-black hover:text-white'
             }`}
           >
             <ShoppingCart size={18} />
