@@ -79,57 +79,39 @@ function Footer() {
 
   return (
     /**
-     * Footer Container
-     * 
-     * Tailwind Classes Explained:
-     * - bg-gray-100: Light gray background in light mode
-     * - dark:bg-gray-900: Dark background in dark mode
-     * - border-t: Top border for visual separation
-     * - mt-auto: Pushes footer to bottom (with flex parent)
+     * Modern Footer with Black & White Theme
      */
-    <footer className="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-auto">
-      <div className="container mx-auto px-4 py-8">
-        {/* 
-          Footer Grid Layout
-          - Grid with responsive columns:
-          - Mobile: 1 column (grid-cols-1)
-          - Tablet: 2 columns (md:grid-cols-2)
-          - Desktop: 4 columns (lg:grid-cols-4)
-          - gap-8: Spacing between grid items
-        */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-white border-t border-gray-200 mt-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Footer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           
-          {/* ===== SECTION 1: About / Branding ===== */}
+          {/* ===== Branding Section ===== */}
           <div>
-            {/* Logo and Brand Name */}
-            <div className="flex items-center space-x-2 mb-4">
-              <BookOpen size={28} className="text-blue-600 dark:text-blue-400" />
-              <span className="text-xl font-bold text-gray-800 dark:text-gray-200">
+            <div className="flex items-center space-x-2.5 mb-4">
+              <div className="bg-black p-1.5 rounded-lg">
+                <BookOpen size={22} className="text-white" />
+              </div>
+              <span className="text-xl font-semibold text-black">
                 BookNest
               </span>
             </div>
-            {/* Description */}
-            <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Your digital library management system. Discover, reserve, and manage your favorite books all in one place.
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Your modern digital library. Discover, reserve, and manage your favorite books seamlessly.
             </p>
           </div>
 
-          {/* ===== SECTION 2: Quick Links ===== */}
+          {/* ===== Quick Links ===== */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+            <h3 className="text-base font-semibold text-black mb-4">
               Quick Links
             </h3>
-            {/* 
-              Navigation Links
-              - Vertical list of internal navigation
-              - Uses Link from react-router-dom for SPA navigation
-            */}
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
+                    className="text-gray-600 hover:text-black transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -138,16 +120,12 @@ function Footer() {
             </ul>
           </div>
 
-          {/* ===== SECTION 3: Library Info ===== */}
+          {/* ===== Library Info ===== */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+            <h3 className="text-base font-semibold text-black mb-4">
               Library Info
             </h3>
-            {/* 
-              Static information about the library
-              In a real app, this could be dynamic from a CMS or API
-            */}
-            <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+            <ul className="space-y-2.5 text-sm text-gray-600">
               <li>📍 123 Book Street</li>
               <li>📞 (123) 456-7890</li>
               <li>📧 info@booknest.com</li>
@@ -155,24 +133,16 @@ function Footer() {
             </ul>
           </div>
 
-          {/* ===== SECTION 4: Connect / Social Media ===== */}
+          {/* ===== Connect ===== */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+            <h3 className="text-base font-semibold text-black mb-4">
               Connect With Us
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-              Follow us on social media for updates and book recommendations.
+            <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+              Follow us for updates and book recommendations.
             </p>
-            {/* 
-              Social Media Icons
-              - Horizontal row of icon links
-              - Circular buttons with hover effects
-              - Each opens in new tab (target="_blank")
-              - rel="noopener noreferrer" for security
-            */}
-            <div className="flex space-x-3">
+            <div className="flex space-x-2.5">
               {socialLinks.map((social) => {
-                // Get the icon component from the social object
                 const IconComponent = social.icon;
                 return (
                   <a
@@ -180,10 +150,10 @@ function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors"
+                    className="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all"
                     aria-label={social.label}
                   >
-                    <IconComponent size={20} />
+                    <IconComponent size={18} />
                   </a>
                 );
               })}
@@ -191,31 +161,22 @@ function Footer() {
           </div>
         </div>
 
-        {/* 
-          ===== BOTTOM BAR: Copyright Notice =====
-          - Separated from main content with top border and margin
-          - Centered text
-          - Shows current year dynamically
-        */}
-        <div className="border-t border-gray-200 dark:border-gray-800 mt-8 pt-6 text-center">
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            © {currentYear} BookNest. All rights reserved. | Built with React & Tailwind CSS
+        {/* ===== Bottom Bar ===== */}
+        <div className="border-t border-gray-200 mt-10 pt-8 text-center">
+          <p className="text-gray-600 text-sm">
+            © {currentYear} BookNest. All rights reserved.
           </p>
-          {/* 
-            Additional Footer Links (Terms, Privacy)
-            Horizontal list with separators
-          */}
-          <div className="flex justify-center space-x-4 mt-2">
+          <div className="flex justify-center space-x-6 mt-3">
             <a
               href="#"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
+              className="text-gray-600 hover:text-black transition-colors text-sm"
             >
               Privacy Policy
             </a>
-            <span className="text-gray-400">|</span>
+            <span className="text-gray-300">|</span>
             <a
               href="#"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
+              className="text-gray-600 hover:text-black transition-colors text-sm"
             >
               Terms of Service
             </a>
