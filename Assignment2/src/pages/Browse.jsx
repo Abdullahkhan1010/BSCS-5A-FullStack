@@ -156,17 +156,18 @@ function Browse() {
   };
 
   return (
-    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
       
       {/* 
         ===== PAGE HEADER =====
         Title and description of Browse page
       */}
-      <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+      <div className="mb-10 md:mb-12">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-3 tracking-tight">
           Browse Books
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-600 text-lg">
           Explore our collection of {books.length} books
         </p>
       </div>
@@ -179,7 +180,7 @@ function Browse() {
         - Mobile: Stacked vertically (flex-col)
         - Tablet/Desktop: Side by side (md:flex-row)
       */}
-      <div className="mb-6 md:mb-8 flex flex-col gap-4">
+      <div className="mb-8 flex flex-col md:flex-row gap-4">
         
         {/* 
           SEARCH INPUT
@@ -206,7 +207,7 @@ function Browse() {
           */}
           <Search 
             size={20} 
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" 
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" 
           />
           
           {/* 
@@ -220,7 +221,7 @@ function Browse() {
             placeholder="Search by title or author..."
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full pl-10 pr-4 py-3 min-h-[44px] border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200 text-base"
+            className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-black transition-all bg-white text-base"
           />
         </div>
 
@@ -235,7 +236,7 @@ function Browse() {
           - Dynamic options based on books data
           - Automatically adapts if categories change
         */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3 w-full md:w-auto">
           {/* Filter Icon */}
           <Filter size={20} className="text-gray-400 flex-shrink-0" />
           
@@ -247,7 +248,7 @@ function Browse() {
           <select
             value={selectedCategory}
             onChange={handleCategoryChange}
-            className="flex-1 px-4 py-3 min-h-[44px] border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200 text-base"
+            className="flex-1 md:w-64 px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-black transition-all bg-white text-base font-medium"
           >
             {/* 
               Map Categories to Options
@@ -269,8 +270,8 @@ function Browse() {
         Shows how many books match current filters
         Helpful feedback for user
       */}
-      <div className="mb-4">
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+      <div className="mb-6">
+        <p className="text-sm text-gray-600 font-medium">
           Showing {filteredBooks.length} {filteredBooks.length === 1 ? 'book' : 'books'}
           {searchQuery && ` matching "${searchQuery}"`}
           {selectedCategory !== 'All' && ` in ${selectedCategory}`}
@@ -301,7 +302,7 @@ function Browse() {
           - Tablet: 2 columns (balance between space and readability)
           - Desktop: 3-4 columns (utilize screen width)
         */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
           {/* 
             Map Filtered Books to Cards
             
@@ -317,19 +318,19 @@ function Browse() {
           ))}
         </div>
       ) : (
-        // Empty State - Shows when no books match filters
-        <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
+        <div className="text-center py-20">
+          <div className="text-gray-300 mb-4">
             <Search size={64} className="mx-auto mb-4" />
           </div>
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          <h3 className="text-xl font-semibold text-black mb-2">
             No Books Found
           </h3>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600">
             Try adjusting your search or filter criteria
           </p>
         </div>
       )}
+      </div>
     </div>
   );
 }

@@ -89,7 +89,7 @@ function Footer() {
           {/* ===== Branding Section ===== */}
           <div>
             <div className="flex items-center space-x-2.5 mb-4">
-              <div className="bg-black p-1.5 rounded-lg">
+              <div className="bg-black p-1.5 rounded-xl">
                 <BookOpen size={22} className="text-white" />
               </div>
               <span className="text-xl font-semibold text-black">
@@ -150,7 +150,7 @@ function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all"
+                    className="w-9 h-9 rounded-xl border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-black hover:text-white hover:border-black transition-all"
                     aria-label={social.label}
                   >
                     <IconComponent size={18} />

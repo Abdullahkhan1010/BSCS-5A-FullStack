@@ -83,7 +83,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-8">
+    <div className="min-h-[70vh] flex items-center justify-center px-4 py-8 bg-gray-50">
       
       {/* 
         Login Card Container
@@ -98,7 +98,7 @@ function Login() {
           - White background with dark mode support
           - Padding for spacing
         */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
+        <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-200">
           
           {/* 
             Header Section
@@ -106,13 +106,13 @@ function Login() {
             - Centered text
           */}
           <div className="text-center mb-6 md:mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-4">
-              <LogIn className="text-blue-600 dark:text-blue-400" size={28} />
+            <div className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-black rounded-full mb-4">
+              <LogIn className="text-white" size={28} />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-black  mb-2">
               Welcome Back
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600">
               Sign in to access your library account
             </p>
           </div>
@@ -138,7 +138,7 @@ function Login() {
             <div>
               <label 
                 htmlFor="username" 
-                className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-semibold text-gray-700  mb-2"
               >
                 Username
               </label>
@@ -154,12 +154,12 @@ function Login() {
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 min-h-[44px] border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 text-base"
+                  className="w-full pl-10 pr-4 py-3 min-h-[44px] border border-gray-200  rounded-xl focus:outline-none focus:ring-2 focus:ring-black  text-base"
                   placeholder="Enter your username"
                   autoFocus
                 />
               </div>
-              <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              <p className="mt-2 text-xs text-gray-500 ">
                 For demo purposes, enter any username (no password required)
               </p>
             </div>
@@ -173,10 +173,10 @@ function Login() {
             <button
               type="submit"
               disabled={!username.trim()}
-              className={`w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] rounded-lg font-semibold transition-colors text-base ${
+              className={`w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] rounded-xl font-semibold transition-colors text-base ${
                 username.trim()
-                  ? 'bg-blue-600 text-white hover:bg-blue-700'
-                  : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                  ? 'bg-black text-white hover:bg-gray-800'
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
               <LogIn size={20} />
@@ -189,8 +189,8 @@ function Login() {
             - Helpful information for users
             - Explains demo nature of login
           */}
-          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-            <p className="text-sm text-blue-800 dark:text-blue-300">
+          <div className="mt-6 p-4 bg-gray-100 border border-gray-200 rounded-xl">
+            <p className="text-sm text-gray-700">
               <strong>Demo Mode:</strong> This is a demonstration login. In a real application, you would need proper authentication with password verification and security measures.
             </p>
           </div>
@@ -200,7 +200,7 @@ function Login() {
             - Could add "Forgot Password" or "Sign Up" links
             - For demo, just informational text
           */}
-          <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+          <div className="mt-6 text-center text-sm text-gray-600 ">
             <p>
               By signing in, you agree to our Terms of Service and Privacy Policy
             </p>

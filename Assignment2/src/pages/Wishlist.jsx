@@ -115,7 +115,7 @@ export default function Wishlist() {
     const emptyStars = 5 - Math.ceil(rating);
     for (let i = 0; i < emptyStars; i++) {
       stars.push(
-        <span key={`empty-${i}`} className="text-gray-300 dark:text-gray-600">★</span>
+        <span key={`empty-${i}`} className="text-gray-300">★</span>
       );
     }
 
@@ -128,31 +128,31 @@ export default function Wishlist() {
   */
   if (wishlist.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
+      <div className="min-h-screen bg-gray-50 py-12 px-4">
         <div className="max-w-7xl mx-auto">
           
           {/* Page Header */}
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold text-black mb-2">
               My Wishlist
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 ">
               Books you want to read later
             </p>
           </div>
 
           {/* Empty State Message */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
-            <Heart size={64} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
+          <div className="bg-white rounded-xl shadow-md p-12 text-center border border-gray-200">
+            <Heart size={64} className="mx-auto mb-4 text-gray-300" />
+            <h2 className="text-2xl font-semibold text-black mb-2">
               Your wishlist is empty
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-gray-600  mb-6">
               Start adding books you want to read to your wishlist!
             </p>
             <button
               onClick={() => navigate('/browse')}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
             >
               Browse Books
             </button>
@@ -167,7 +167,7 @@ export default function Wishlist() {
     Shows all wishlisted books in grid format
   */
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 md:py-12 px-4 md:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-8 md:py-12 px-4 md:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
         {/* 
@@ -175,10 +175,10 @@ export default function Wishlist() {
           Shows title and count of wishlisted books
         */}
         <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-white mb-2">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-black mb-2">
             My Wishlist
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 ">
             {getWishlistCount()} {getWishlistCount() === 1 ? 'book' : 'books'} in your wishlist
           </p>
         </div>
@@ -198,14 +198,14 @@ export default function Wishlist() {
             
             <div 
               key={book.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-gray-200"
             >
               
               {/* 
                 ===== BOOK COVER IMAGE =====
                 Shows book cover with fallback
               */}
-              <div className="relative h-64 bg-gray-200 dark:bg-gray-700">
+              <div className="relative h-64 bg-gray-200">
                 <img 
                   src={book.coverUrl || '/placeholder-book.jpg'} 
                   alt={book.title}
@@ -246,31 +246,31 @@ export default function Wishlist() {
               <div className="p-4">
                 
                 {/* Book Title */}
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1 line-clamp-2">
+                <h3 className="text-lg font-bold text-black  mb-1 line-clamp-2">
                   {book.title}
                 </h3>
 
                 {/* Author Name */}
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                <p className="text-sm text-gray-600  mb-2">
                   by {book.author}
                 </p>
 
                 {/* Category */}
-                <p className="text-xs text-gray-500 dark:text-gray-500 mb-2">
+                <p className="text-xs text-gray-500 mb-2">
                   {book.category}
                 </p>
 
                 {/* Rating Display */}
                 <div className="flex items-center space-x-1 mb-3">
                   {renderStars(book.rating)}
-                  <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+                  <span className="text-sm text-gray-600  ml-2">
                     {book.rating.toFixed(1)}
                   </span>
                 </div>
 
                 {/* Copies Available */}
                 {book.status === 'Available' && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                  <p className="text-xs text-gray-500  mb-3">
                     {book.copiesAvailable} {book.copiesAvailable === 1 ? 'copy' : 'copies'} available
                   </p>
                 )}
@@ -284,7 +284,7 @@ export default function Wishlist() {
                   {/* View Details Button */}
                   <button
                     onClick={() => handleViewDetails(book.id)}
-                    className="flex items-center justify-center space-x-1 px-4 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
+                    className="flex items-center justify-center space-x-1 px-4 py-2 min-h-[44px] bg-black text-white rounded-xl hover:bg-gray-800 transition-colors text-sm md:text-base"
                   >
                     <Eye size={18} />
                     <span>View Details</span>
@@ -294,7 +294,7 @@ export default function Wishlist() {
                   {book.status === 'Available' && (
                     <button
                       onClick={() => handleAddToCart(book)}
-                      className="flex items-center justify-center space-x-1 px-4 py-2 min-h-[44px] bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm md:text-base"
+                      className="flex items-center justify-center space-x-1 px-4 py-2 min-h-[44px] bg-black text-white rounded-xl hover:bg-gray-800 transition-colors text-sm md:text-base"
                     >
                       <ShoppingCart size={18} />
                       <span>Add to Cart</span>
@@ -303,7 +303,7 @@ export default function Wishlist() {
 
                   {/* Borrowed Status Message */}
                   {book.status === 'Borrowed' && (
-                    <p className="text-xs text-red-500 dark:text-red-400 text-center">
+                    <p className="text-xs text-red-500 text-center">
                       Currently unavailable
                     </p>
                   )}
@@ -324,7 +324,7 @@ export default function Wishlist() {
                   wishlist.forEach(book => removeFromWishlist(book.id));
                   showToast('Wishlist cleared successfully!', 'success');
                 }}
-              className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors"
             >
               Clear Wishlist
             </button>

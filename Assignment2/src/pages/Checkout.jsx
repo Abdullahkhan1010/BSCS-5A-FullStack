@@ -174,15 +174,15 @@ function Checkout() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">
           <ShoppingCart size={64} className="mx-auto text-gray-400 mb-4" />
-          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          <h2 className="text-2xl font-semibold text-black  mb-2">
             No items in cart
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-600  mb-6">
             Add books to your cart before proceeding to checkout.
           </p>
           <button
             onClick={() => navigate('/browse')}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
           >
             Browse Books
           </button>
@@ -192,14 +192,15 @@ function Checkout() {
   }
 
   return (
-    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8 max-w-5xl">
+    <div className="min-h-screen bg-gray-50 py-6 md:py-8">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-5xl">
       
       {/* Page Header */}
       <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-black  mb-2">
           Checkout & Confirmation
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-600 ">
           Review your reservation details before confirming
         </p>
       </div>
@@ -210,33 +211,33 @@ function Checkout() {
         <div className="lg:col-span-2 space-y-6">
           
           {/* User Details Summary */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+            <h2 className="text-xl font-semibold text-black  mb-4 flex items-center">
               <FileText size={24} className="mr-2" />
               Reservation Details
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-gray-600 dark:text-gray-400">Full Name:</span>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">
+                <span className="text-gray-600 ">Full Name:</span>
+                <p className="font-semibold text-black ">
                   {formData.fullName || 'Not specified'}
                 </p>
               </div>
               <div>
-                <span className="text-gray-600 dark:text-gray-400">Email:</span>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">
+                <span className="text-gray-600 ">Email:</span>
+                <p className="font-semibold text-black ">
                   {formData.email || 'Not specified'}
                 </p>
               </div>
               <div>
-                <span className="text-gray-600 dark:text-gray-400">Membership ID:</span>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">
+                <span className="text-gray-600 ">Membership ID:</span>
+                <p className="font-semibold text-black ">
                   {formData.membershipId || 'Not specified'}
                 </p>
               </div>
               <div>
-                <span className="text-gray-600 dark:text-gray-400">Pickup Date:</span>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">
+                <span className="text-gray-600 ">Pickup Date:</span>
+                <p className="font-semibold text-black ">
                   {formatDate(formData.pickupDate)}
                 </p>
               </div>
@@ -244,8 +245,8 @@ function Checkout() {
           </div>
 
           {/* Reserved Books List */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+            <h2 className="text-xl font-semibold text-black  mb-4 flex items-center">
               <ShoppingCart size={24} className="mr-2" />
               Reserved Books ({cart.length})
             </h2>
@@ -258,7 +259,7 @@ function Checkout() {
                 return (
                   <div 
                     key={book.id}
-                    className="flex gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+                    className="flex gap-4 p-4 border border-gray-200  rounded-xl"
                   >
                     {/* Book Cover */}
                     <div className="w-16 h-20 flex-shrink-0">
@@ -274,19 +275,19 @@ function Checkout() {
 
                     {/* Book Details */}
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-800 dark:text-gray-200">
+                      <h3 className="font-semibold text-black ">
                         {book.title}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      <p className="text-sm text-gray-600  mb-2">
                         by {book.author}
                       </p>
                       
                       <div className="flex flex-wrap gap-4 text-xs">
-                        <div className="flex items-center text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center text-gray-600 ">
                           <Clock size={14} className="mr-1" />
                           <span>{duration} days</span>
                         </div>
-                        <div className="flex items-center text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center text-gray-600 ">
                           <Calendar size={14} className="mr-1" />
                           <span>Due: {formatDate(dueDate)}</span>
                         </div>
@@ -299,12 +300,12 @@ function Checkout() {
           </div>
 
           {/* Late Return Policy */}
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-yellow-800 dark:text-yellow-200 mb-4 flex items-center">
+          <div className="bg-gray-100 border border-gray-200 rounded-xl p-6">
+            <h2 className="text-xl font-semibold text-black mb-4 flex items-center">
               <AlertTriangle size={24} className="mr-2" />
               Late Return Policy
             </h2>
-            <div className="text-sm text-yellow-700 dark:text-yellow-300 space-y-2">
+            <div className="text-sm text-gray-700 space-y-2">
               <p className="flex items-start">
                 <span className="mr-2">•</span>
                 <span><strong>Fine Rate:</strong> $2.00 per day per book for late returns</span>
@@ -329,12 +330,12 @@ function Checkout() {
           </div>
 
           {/* Terms and Conditions */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+            <h2 className="text-xl font-semibold text-black  mb-4">
               Terms and Conditions
             </h2>
-            <div className="text-sm text-gray-600 dark:text-gray-400 space-y-2 mb-4 max-h-48 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded p-4">
-              <p className="font-semibold text-gray-800 dark:text-gray-200">Library Book Borrowing Agreement</p>
+            <div className="text-sm text-gray-600  space-y-2 mb-4 max-h-48 overflow-y-auto border border-gray-200  rounded p-4">
+              <p className="font-semibold text-black ">Library Book Borrowing Agreement</p>
               
               <p>By accepting these terms, you agree to:</p>
               
@@ -363,9 +364,9 @@ function Checkout() {
                 type="checkbox"
                 checked={termsAccepted}
                 onChange={(e) => setTermsAccepted(e.target.checked)}
-                className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                className="mt-1 w-5 h-5 text-black border-gray-200 rounded focus:ring-2 focus:ring-black"
               />
-              <span className="text-sm text-gray-700 dark:text-gray-300">
+              <span className="text-sm text-gray-700 ">
                 I have read and agree to the terms and conditions, including the late return policy 
                 and my responsibilities as a borrower.
               </span>
@@ -378,37 +379,37 @@ function Checkout() {
         <div className="lg:col-span-1">
           
           {/* Order Summary Card */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 sticky top-4">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+          <div className="bg-white rounded-xl shadow-md p-6 sticky top-4 border border-gray-200">
+            <h2 className="text-xl font-semibold text-black  mb-4">
               Order Summary
             </h2>
 
-            <div className="space-y-3 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+            <div className="space-y-3 mb-6 pb-6 border-b border-gray-200 ">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Total Books:</span>
-                <span className="font-semibold text-gray-800 dark:text-gray-200">
+                <span className="text-gray-600 ">Total Books:</span>
+                <span className="font-semibold text-black ">
                   {cart.length} {cart.length === 1 ? 'book' : 'books'}
                 </span>
               </div>
               
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Pickup Date:</span>
-                <span className="font-semibold text-gray-800 dark:text-gray-200">
+                <span className="text-gray-600 ">Pickup Date:</span>
+                <span className="font-semibold text-black ">
                   {new Date(formData.pickupDate || defaultPickupDate)
                     .toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 </span>
               </div>
 
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Borrowing Fee:</span>
-                <span className="font-semibold text-green-600 dark:text-green-400">
+                <span className="text-gray-600 ">Borrowing Fee:</span>
+                <span className="font-semibold text-black">
                   FREE
                 </span>
               </div>
 
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Late Fee (if applicable):</span>
-                <span className="font-semibold text-yellow-600 dark:text-yellow-400">
+                <span className="text-gray-600 ">Late Fee (if applicable):</span>
+                <span className="font-semibold text-red-600">
                   $2.00/day/book
                 </span>
               </div>
@@ -419,10 +420,10 @@ function Checkout() {
               <button
                 onClick={handleFinalConfirmation}
                 disabled={!termsAccepted || isProcessing}
-                className={`w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] rounded-lg font-semibold transition-colors text-base ${
+                className={`w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] rounded-xl font-semibold transition-colors text-base ${
                   termsAccepted && !isProcessing
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
-                    : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                    ? 'bg-black hover:bg-gray-800 text-white'
+                    : 'bg-gray-300 text-gray-500  cursor-not-allowed'
                 }`}
               >
                 <CheckCircle size={20} />
@@ -433,7 +434,7 @@ function Checkout() {
               <button
                 onClick={handleBack}
                 disabled={isProcessing}
-                className="w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-base"
+                className="w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] border-2 border-gray-200  text-gray-700  rounded-xl font-semibold hover:bg-gray-50 transition-colors text-base"
               >
                 <ArrowLeft size={20} />
                 <span>Back to Cart</span>
@@ -441,7 +442,7 @@ function Checkout() {
             </div>
 
             {/* Info Note */}
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-4 text-center">
+            <p className="text-xs text-gray-500  mt-4 text-center">
               By confirming, you agree to all terms and policies
             </p>
           </div>
@@ -450,6 +451,7 @@ function Checkout() {
 
       </div>
 
+      </div>
     </div>
   );
 }

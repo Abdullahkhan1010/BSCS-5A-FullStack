@@ -149,7 +149,7 @@ function Dashboard() {
   const getStatusBadge = (item) => {
     if (item.status === 'cancelled') {
       return (
-        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-600">
           <XCircle size={12} className="mr-1" />
           Cancelled
         </span>
@@ -157,7 +157,7 @@ function Dashboard() {
     }
     if (item.status === 'returned') {
       return (
-        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
+        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
           <CheckCircle size={12} className="mr-1" />
           Returned
         </span>
@@ -165,7 +165,7 @@ function Dashboard() {
     }
     if (!item.pickedUp) {
       return (
-        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400">
+        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-600">
           <Clock size={12} className="mr-1" />
           Not Picked Up
         </span>
@@ -173,14 +173,14 @@ function Dashboard() {
     }
     if (isOverdue(item.dueDate)) {
       return (
-        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400">
+        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700">
           <AlertCircle size={12} className="mr-1" />
           Overdue
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
+      <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700">
         <BookOpen size={12} className="mr-1" />
         Borrowed
       </span>
@@ -188,15 +188,16 @@ function Dashboard() {
   };
 
   return (
-    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8 max-w-7xl">
+    <div className="min-h-screen bg-gray-50 py-6 md:py-8">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
       
       {/* Page Header */}
       <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2 flex items-center">
+        <h1 className="text-2xl md:text-3xl font-bold text-black  mb-2 flex items-center">
           <User size={28} className="mr-2 md:mr-3" />
           User Dashboard
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-600 ">
           Welcome back, {user?.username || 'Guest'}! Here's your borrowing overview.
         </p>
       </div>
@@ -205,45 +206,45 @@ function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         
         {/* Currently Borrowed */}
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white">
+        <div className="bg-black rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center justify-between mb-2">
-            <BookOpen size={32} className="opacity-80" />
+            <BookOpen size={32} />
             <span className="text-3xl font-bold">{currentlyBorrowed.length}</span>
           </div>
-          <h3 className="text-sm font-semibold opacity-90">Currently Borrowed</h3>
-          <p className="text-xs opacity-75 mt-1">Active borrowings</p>
+          <h3 className="text-sm font-semibold">Currently Borrowed</h3>
+          <p className="text-xs text-gray-300 mt-1">Active borrowings</p>
         </div>
 
         {/* Total Books Borrowed */}
-        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-lg p-6 text-white">
+        <div className="bg-black rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center justify-between mb-2">
-            <TrendingUp size={32} className="opacity-80" />
+            <TrendingUp size={32} />
             <span className="text-3xl font-bold">{totalBorrowed}</span>
           </div>
-          <h3 className="text-sm font-semibold opacity-90">Total Borrowed</h3>
-          <p className="text-xs opacity-75 mt-1">Lifetime counter</p>
+          <h3 className="text-sm font-semibold">Total Borrowed</h3>
+          <p className="text-xs text-gray-300 mt-1">Lifetime counter</p>
         </div>
 
         {/* Wishlist Count */}
-        <div className="bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg shadow-lg p-6 text-white">
+        <div className="bg-black rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center justify-between mb-2">
-            <Heart size={32} className="opacity-80" />
+            <Heart size={32} />
             <span className="text-3xl font-bold">{wishlistCount}</span>
           </div>
-          <h3 className="text-sm font-semibold opacity-90">Wishlist Books</h3>
-          <p className="text-xs opacity-75 mt-1">Want to read</p>
+          <h3 className="text-sm font-semibold">Wishlist Books</h3>
+          <p className="text-xs text-gray-300 mt-1">Want to read</p>
         </div>
 
         {/* Overdue Books */}
-        <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-lg shadow-lg p-6 text-white">
+        <div className="bg-black rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center justify-between mb-2">
-            <AlertCircle size={32} className="opacity-80" />
+            <AlertCircle size={32} />
             <span className="text-3xl font-bold">
               {currentlyBorrowed.filter(item => isOverdue(item.dueDate)).length}
             </span>
           </div>
-          <h3 className="text-sm font-semibold opacity-90">Overdue Books</h3>
-          <p className="text-xs opacity-75 mt-1">Need attention</p>
+          <h3 className="text-sm font-semibold">Overdue Books</h3>
+          <p className="text-xs text-gray-300 mt-1">Need attention</p>
         </div>
 
       </div>
@@ -254,15 +255,15 @@ function Dashboard() {
         <div className="lg:col-span-2 space-y-6">
           
           {/* Currently Borrowed Books Section */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 flex items-center">
+              <h2 className="text-xl font-semibold text-black  flex items-center">
                 <BookOpen size={24} className="mr-2" />
                 Currently Borrowed Books
               </h2>
               <Link
                 to="/history"
-                className="text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                className="text-sm text-black hover:text-gray-600 font-semibold flex items-center"
               >
                 View All
                 <ArrowRight size={16} className="ml-1" />
@@ -272,12 +273,12 @@ function Dashboard() {
             {currentlyBorrowed.length === 0 ? (
               <div className="text-center py-12">
                 <BookOpen size={48} className="mx-auto text-gray-400 mb-4" />
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-gray-600  mb-4">
                   No books currently borrowed
                 </p>
                 <Link
                   to="/browse"
-                  className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-block px-6 py-2 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
                 >
                   Browse Books
                 </Link>
@@ -291,7 +292,7 @@ function Dashboard() {
                   return (
                     <div
                       key={item.reservationId}
-                      className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow"
+                      className="border border-gray-200  rounded-xl p-4 hover:shadow-md transition-shadow"
                     >
                       <div className="flex gap-4">
                         {/* Book Cover */}
@@ -310,10 +311,10 @@ function Dashboard() {
                         <div className="flex-1">
                           <div className="flex items-start justify-between mb-2">
                             <div>
-                              <h3 className="font-semibold text-gray-800 dark:text-gray-200">
+                              <h3 className="font-semibold text-black ">
                                 {item.book.title}
                               </h3>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
+                              <p className="text-sm text-gray-600 ">
                                 by {item.book.author}
                               </p>
                             </div>
@@ -322,11 +323,11 @@ function Dashboard() {
 
                           {/* Dates */}
                           <div className="grid grid-cols-2 gap-2 text-xs mb-3">
-                            <div className="flex items-center text-gray-600 dark:text-gray-400">
+                            <div className="flex items-center text-gray-600 ">
                               <Calendar size={14} className="mr-1" />
                               <span>Borrowed: {formatDate(item.borrowDate)}</span>
                             </div>
-                            <div className={`flex items-center ${overdue ? 'text-red-600 dark:text-red-400 font-semibold' : 'text-gray-600 dark:text-gray-400'}`}>
+                            <div className={`flex items-center ${overdue ? 'text-red-600 font-semibold' : 'text-gray-600 '}`}>
                               <Clock size={14} className="mr-1" />
                               <span>Due: {formatDate(item.dueDate)}</span>
                             </div>
@@ -335,12 +336,12 @@ function Dashboard() {
                           {/* Remaining Days */}
                           <div className="mb-3">
                             {overdue ? (
-                              <div className="flex items-center text-red-600 dark:text-red-400 text-sm font-semibold">
+                              <div className="flex items-center text-red-700 text-sm font-semibold">
                                 <AlertCircle size={16} className="mr-2" />
                                 <span>Overdue by {Math.abs(remainingDays)} days</span>
                               </div>
                             ) : (
-                              <div className="flex items-center text-gray-700 dark:text-gray-300 text-sm">
+                              <div className="flex items-center text-gray-700  text-sm">
                                 <Clock size={16} className="mr-2" />
                                 <span>
                                   {remainingDays === 0 ? 'Due today' : 
@@ -350,7 +351,7 @@ function Dashboard() {
                               </div>
                             )}
                             {item.extended && (
-                              <p className="text-xs text-green-600 dark:text-green-400 mt-1 flex items-center">
+                              <p className="text-xs text-green-700 mt-1 flex items-center">
                                 <CheckCircle size={12} className="mr-1" />
                                 Extended once
                               </p>
@@ -363,7 +364,7 @@ function Dashboard() {
                             {!item.pickedUp && (
                               <button
                                 onClick={() => handlePickup(item.reservationId)}
-                                className="flex items-center px-3 py-2 min-h-[44px] text-xs md:text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+                                className="flex items-center px-3 py-2 min-h-[44px] text-xs md:text-sm bg-black text-white rounded hover:bg-gray-800 transition-colors"
                               >
                                 <CheckCircle size={16} className="mr-1" />
                                 Mark as Picked Up
@@ -407,18 +408,18 @@ function Dashboard() {
         <div className="space-y-6">
           
           {/* Quick Actions */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+            <h2 className="text-xl font-semibold text-black  mb-4">
               Quick Actions
             </h2>
             <div className="space-y-3">
               <Link
                 to="/browse"
-                className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center justify-between p-3 border border-gray-200  rounded-xl hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center">
-                  <BookOpen size={20} className="mr-3 text-blue-600 dark:text-blue-400" />
-                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                  <BookOpen size={20} className="mr-3 text-black" />
+                  <span className="text-sm font-medium text-black">
                     Browse Books
                   </span>
                 </div>
@@ -427,11 +428,11 @@ function Dashboard() {
 
               <Link
                 to="/wishlist"
-                className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center justify-between p-3 border border-gray-200  rounded-xl hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center">
-                  <Heart size={20} className="mr-3 text-pink-600 dark:text-pink-400" />
-                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                  <Heart size={20} className="mr-3 text-black" />
+                  <span className="text-sm font-medium text-black">
                     My Wishlist
                   </span>
                 </div>
@@ -440,11 +441,11 @@ function Dashboard() {
 
               <Link
                 to="/history"
-                className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center justify-between p-3 border border-gray-200  rounded-xl hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center">
-                  <History size={20} className="mr-3 text-purple-600 dark:text-purple-400" />
-                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                  <History size={20} className="mr-3 text-black" />
+                  <span className="text-sm font-medium text-black">
                     Full History
                   </span>
                 </div>
@@ -453,11 +454,11 @@ function Dashboard() {
 
               <Link
                 to="/reservations"
-                className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center justify-between p-3 border border-gray-200  rounded-xl hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center">
-                  <Calendar size={20} className="mr-3 text-green-600 dark:text-green-400" />
-                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                  <Calendar size={20} className="mr-3 text-black" />
+                  <span className="text-sm font-medium text-black">
                     My Cart
                   </span>
                 </div>
@@ -467,21 +468,21 @@ function Dashboard() {
           </div>
 
           {/* Recent History */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+              <h2 className="text-xl font-semibold text-black ">
                 Recent Activity
               </h2>
               <Link
                 to="/history"
-                className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                className="text-sm text-black hover:text-gray-600 font-semibold"
               >
                 View All
               </Link>
             </div>
 
             {recentHistory.length === 0 ? (
-              <p className="text-center text-gray-600 dark:text-gray-400 py-4 text-sm">
+              <p className="text-center text-gray-600  py-4 text-sm">
                 No activity yet
               </p>
             ) : (
@@ -489,7 +490,7 @@ function Dashboard() {
                 {recentHistory.map((item) => (
                   <div
                     key={item.reservationId}
-                    className="flex items-start gap-3 pb-3 border-b border-gray-200 dark:border-gray-700 last:border-0"
+                    className="flex items-start gap-3 pb-3 border-b border-gray-200  last:border-0"
                   >
                     <div className="w-10 h-14 flex-shrink-0">
                       <img
@@ -502,10 +503,10 @@ function Dashboard() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">
+                      <h4 className="text-sm font-medium text-black  truncate">
                         {item.book.title}
                       </h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                      <p className="text-xs text-gray-600  mt-1">
                         {formatDate(item.borrowDate)}
                       </p>
                       <div className="mt-1">
@@ -519,14 +520,14 @@ function Dashboard() {
           </div>
 
           {/* Important Notice */}
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+          <div className="bg-gray-100 border border-gray-200 rounded-xl p-4">
             <div className="flex items-start">
-              <AlertCircle size={20} className="text-yellow-600 dark:text-yellow-400 mr-2 flex-shrink-0 mt-0.5" />
+              <AlertCircle size={20} className="text-yellow-700 mr-2 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="text-sm font-semibold text-yellow-800 dark:text-yellow-200 mb-1">
+                <h3 className="text-sm font-semibold text-black mb-1">
                   Important Reminder
                 </h3>
-                <p className="text-xs text-yellow-700 dark:text-yellow-300">
+                <p className="text-xs text-gray-700">
                   Late returns incur a fine of $2.00 per day per book. 
                   You can extend borrowing once per book by 7 days.
                 </p>
@@ -538,6 +539,7 @@ function Dashboard() {
 
       </div>
 
+      </div>
     </div>
   );
 }

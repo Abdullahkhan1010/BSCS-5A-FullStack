@@ -106,15 +106,15 @@ function BookDetails() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+          <h2 className="text-2xl font-bold text-black  mb-4">
             Book Not Found
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-600  mb-6">
             The book you're looking for doesn't exist or has been removed.
           </p>
           <button
             onClick={() => navigate('/browse')}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
           >
             Browse All Books
           </button>
@@ -307,7 +307,7 @@ function BookDetails() {
     const remainingStars = 5 - Math.ceil(book.rating);
     for (let i = 0; i < remainingStars; i++) {
       stars.push(
-        <Star key={`empty-${i}`} size={20} className="text-gray-300 dark:text-gray-600" />
+        <Star key={`empty-${i}`} size={20} className="text-gray-300" />
       );
     }
 
@@ -315,7 +315,8 @@ function BookDetails() {
   };
 
   return (
-    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
+    <div className="min-h-screen bg-gray-50 py-6 md:py-8">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
       
       {/* 
         Back Button
@@ -324,7 +325,7 @@ function BookDetails() {
       */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center justify-center space-x-2 text-blue-600 dark:text-blue-400 hover:underline mb-6 min-h-[44px] px-4 py-2"
+        className="flex items-center justify-center space-x-2 text-black hover:text-gray-600 mb-6 min-h-[44px] px-4 py-2 font-semibold"
       >
         <ArrowLeft size={20} />
         <span>Back to Browse</span>
@@ -347,7 +348,7 @@ function BookDetails() {
           ===== LEFT COLUMN: BOOK COVER =====
         */}
         <div className="lg:w-1/3">
-          <div className="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg">
+          <div className="relative bg-gray-200 rounded-xl overflow-hidden shadow-lg">
             {/* 
               Book Cover Image
               - aspect-[3/4]: Maintains 3:4 aspect ratio (standard book)
@@ -369,8 +370,8 @@ function BookDetails() {
             */}
             <div className={`absolute top-4 right-4 px-3 py-2 rounded-full text-sm font-semibold flex items-center space-x-2 ${
               isAvailable 
-                ? 'bg-green-500 text-white' 
-                : 'bg-red-500 text-white'
+                ? 'bg-black text-white' 
+                : 'bg-gray-800 text-white'
             }`}>
               {isAvailable ? (
                 <>
@@ -394,19 +395,19 @@ function BookDetails() {
           
           {/* Category Badge */}
           <div className="mb-4">
-            <span className="inline-flex items-center space-x-1 px-3 py-1 text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900 rounded-full">
+            <span className="inline-flex items-center space-x-1 px-3 py-1 text-sm font-semibold text-black bg-gray-100 rounded-full">
               <Tag size={16} />
               <span>{book.category}</span>
             </span>
           </div>
 
           {/* Book Title */}
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+          <h1 className="text-3xl md:text-4xl font-bold text-black  mb-3">
             {book.title}
           </h1>
 
           {/* Author */}
-          <div className="flex items-center space-x-2 text-lg text-gray-600 dark:text-gray-400 mb-4">
+          <div className="flex items-center space-x-2 text-lg text-gray-600  mb-4">
             <User size={20} />
             <span>by {book.author}</span>
           </div>
@@ -419,10 +420,10 @@ function BookDetails() {
             <div className="flex items-center space-x-1">
               {renderStars()}
             </div>
-            <span className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+            <span className="text-lg font-semibold text-gray-700 ">
               {book.rating.toFixed(1)}
             </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
+            <span className="text-sm text-gray-500 ">
               out of 5
             </span>
           </div>
@@ -432,14 +433,14 @@ function BookDetails() {
             - ISBN, Publisher, Publication Year, Page Count, and Copies Available
             - Responsive: 1 or 2 columns on mobile, up to 3 columns on desktop
           */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 p-4 bg-white border border-gray-200 rounded-xl">
             
             {/* ISBN */}
             <div className="flex items-center space-x-2">
               <Hash size={20} className="text-gray-400" />
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">ISBN</p>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">{book.isbn}</p>
+                <p className="text-sm text-gray-500 ">ISBN</p>
+                <p className="font-semibold text-black ">{book.isbn}</p>
               </div>
             </div>
 
@@ -447,8 +448,8 @@ function BookDetails() {
             <div className="flex items-center space-x-2">
               <Building2 size={20} className="text-gray-400" />
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Publisher</p>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">{book.publisher}</p>
+                <p className="text-sm text-gray-500 ">Publisher</p>
+                <p className="font-semibold text-black ">{book.publisher}</p>
               </div>
             </div>
 
@@ -456,8 +457,8 @@ function BookDetails() {
             <div className="flex items-center space-x-2">
               <CalendarDays size={20} className="text-gray-400" />
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Published</p>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">{book.publicationYear}</p>
+                <p className="text-sm text-gray-500 ">Published</p>
+                <p className="font-semibold text-black ">{book.publicationYear}</p>
               </div>
             </div>
 
@@ -465,8 +466,8 @@ function BookDetails() {
             <div className="flex items-center space-x-2">
               <FileText size={20} className="text-gray-400" />
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Pages</p>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">{book.pageCount}</p>
+                <p className="text-sm text-gray-500 ">Pages</p>
+                <p className="font-semibold text-black ">{book.pageCount}</p>
               </div>
             </div>
 
@@ -474,8 +475,8 @@ function BookDetails() {
             <div className="flex items-center space-x-2">
               <BookOpen size={20} className="text-gray-400" />
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Copies Available</p>
-                <p className="font-semibold text-gray-800 dark:text-gray-200">
+                <p className="text-sm text-gray-500 ">Copies Available</p>
+                <p className="font-semibold text-black ">
                   {book.copiesAvailable} {book.copiesAvailable === 1 ? 'copy' : 'copies'}
                 </p>
               </div>
@@ -487,10 +488,10 @@ function BookDetails() {
             - Full description text
           */}
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+            <h2 className="text-xl font-bold text-black  mb-3">
               Description
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+            <p className="text-gray-600  leading-relaxed">
               {book.description}
             </p>
           </div>
@@ -502,24 +503,24 @@ function BookDetails() {
           */}
           {book.reviews && book.reviews.length > 0 && (
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+              <h2 className="text-xl font-bold text-black  mb-4">
                 User Reviews ({book.reviews.length})
               </h2>
               <div className="space-y-4">
                 {book.reviews.map((review, index) => (
                   <div 
                     key={index}
-                    className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"
+                    className="p-4 bg-white  border border-gray-200  rounded-xl"
                   >
                     {/* Review Header: Username and Date */}
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
                         <User size={18} className="text-gray-400" />
-                        <span className="font-semibold text-gray-800 dark:text-gray-200">
+                        <span className="font-semibold text-black ">
                           {review.username}
                         </span>
                       </div>
-                      <span className="text-sm text-gray-500 dark:text-gray-400">
+                      <span className="text-sm text-gray-500 ">
                         {new Date(review.date).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'short',
@@ -537,17 +538,17 @@ function BookDetails() {
                           className={
                             i < review.rating
                               ? 'fill-yellow-400 text-yellow-400'
-                              : 'text-gray-300 dark:text-gray-600'
+                              : 'text-gray-300'
                           }
                         />
                       ))}
-                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-2">
+                      <span className="text-sm font-semibold text-gray-700  ml-2">
                         {review.rating}/5
                       </span>
                     </div>
 
                     {/* Review Comment */}
-                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <p className="text-gray-600  leading-relaxed">
                       {review.comment}
                     </p>
                   </div>
@@ -569,10 +570,10 @@ function BookDetails() {
             {/* Wishlist Toggle Button */}
             <button
               onClick={handleToggleWishlist}
-              className={`flex items-center justify-center space-x-2 px-6 md:px-8 py-3 md:py-4 min-h-[44px] rounded-lg font-semibold text-base md:text-lg transition-colors ${
+              className={`flex items-center justify-center space-x-2 px-6 md:px-8 py-3 md:py-4 min-h-[44px] rounded-xl font-semibold text-base md:text-lg transition-colors ${
                 inWishlist
-                  ? 'bg-red-500 text-white hover:bg-red-600'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                  ? 'bg-black text-white hover:bg-gray-800'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
               <Heart 
@@ -593,16 +594,16 @@ function BookDetails() {
               <button
                 onClick={handleReserve}
                 disabled={inCart}
-                className={`w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] rounded-lg font-semibold text-base md:text-lg transition-colors ${
+                className={`w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] rounded-xl font-semibold text-base md:text-lg transition-colors ${
                   inCart
-                    ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                    : 'bg-green-600 text-white hover:bg-green-700'
+                    ? 'bg-gray-300 text-gray-500  cursor-not-allowed'
+                    : 'bg-black text-white hover:bg-gray-800'
                 }`}
               >
                 {inCart ? '✓ Already in Cart' : '📚 Reserve Book'}
               </button>
               {inCart && (
-                <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                <p className="mt-3 text-sm text-gray-600 ">
                   Go to "My Reservations" to confirm your reservation.
                 </p>
               )}
@@ -621,30 +622,30 @@ function BookDetails() {
             <div className="flex-1 space-y-4">
               <button
                 disabled
-                className="w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-lg font-semibold text-base md:text-lg cursor-not-allowed"
+                className="w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] bg-gray-300 text-gray-500  rounded-xl font-semibold text-base md:text-lg cursor-not-allowed"
               >
                 Currently Borrowed
               </button>
-              <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
+              <div className="flex items-center space-x-2 text-gray-600 ">
                 <Calendar size={20} />
                 <span>Expected to be available by: <strong>{availableDate}</strong></span>
               </div>
               
               {/* Book for Later Button */}
               {userBooking ? (
-                <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                  <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
+                <div className="mt-4 p-4 bg-gray-100 border border-gray-200 rounded-xl">
+                  <div className="flex items-center space-x-2 text-black">
                     <CheckCircle size={20} />
                     <span className="font-semibold">You have booked this book!</span>
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                  <p className="text-sm text-gray-600  mt-2">
                     You will be notified when it becomes available after {availableDate}.
                   </p>
                 </div>
               ) : (
                 <button
                   onClick={handleBookForLater}
-                  className="w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] bg-blue-600 text-white rounded-lg font-semibold text-base md:text-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
+                  className="w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] bg-black text-white rounded-xl font-semibold text-base md:text-lg hover:bg-gray-800 transition-colors flex items-center justify-center space-x-2"
                 >
                   <Clock size={20} />
                   <span>Book for After {availableDate}</span>
@@ -654,6 +655,7 @@ function BookDetails() {
           )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

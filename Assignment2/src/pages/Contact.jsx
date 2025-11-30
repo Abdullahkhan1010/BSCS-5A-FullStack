@@ -183,14 +183,15 @@ function Contact() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-8">
       
       {/* Page Header */}
       <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+        <h1 className="text-3xl md:text-4xl font-bold text-black  mb-3">
           Contact Us
         </h1>
-        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        <p className="text-gray-600  max-w-2xl mx-auto">
           Have questions or feedback? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
         </p>
       </div>
@@ -207,8 +208,8 @@ function Contact() {
         {/* 
           ===== LEFT COLUMN: CONTACT FORM =====
         */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+        <div className="bg-white  rounded-xl shadow-md p-6 md:p-8">
+          <h2 className="text-2xl font-bold text-black  mb-6">
             Send us a Message
           </h2>
 
@@ -226,7 +227,7 @@ function Contact() {
             <div>
               <label 
                 htmlFor="name" 
-                className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-semibold text-gray-700  mb-2"
               >
                 Name *
               </label>
@@ -236,10 +237,10 @@ function Contact() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 min-h-[44px] border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 text-base ${
+                className={`w-full px-4 py-3 min-h-[44px] border rounded-xl focus:outline-none focus:ring-2  text-base ${
                   errors.name 
                     ? 'border-red-500 focus:ring-red-500' 
-                    : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                    : 'border-gray-200  focus:ring-black'
                 }`}
                 placeholder="Your full name"
               />
@@ -249,7 +250,7 @@ function Contact() {
                 - Red text for visibility
               */}
               {errors.name && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                <p className="mt-1 text-sm text-red-600">
                   {errors.name}
                 </p>
               )}
@@ -262,7 +263,7 @@ function Contact() {
             <div>
               <label 
                 htmlFor="email" 
-                className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-semibold text-gray-700  mb-2"
               >
                 Email *
               </label>
@@ -272,15 +273,15 @@ function Contact() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 min-h-[44px] border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 text-base ${
+                className={`w-full px-4 py-3 min-h-[44px] border rounded-xl focus:outline-none focus:ring-2  text-base ${
                   errors.email 
                     ? 'border-red-500 focus:ring-red-500' 
-                    : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                    : 'border-gray-200  focus:ring-black'
                 }`}
                 placeholder="your.email@example.com"
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                <p className="mt-1 text-sm text-red-600">
                   {errors.email}
                 </p>
               )}
@@ -293,7 +294,7 @@ function Contact() {
             <div>
               <label 
                 htmlFor="subject" 
-                className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-semibold text-gray-700  mb-2"
               >
                 Subject
               </label>
@@ -303,7 +304,7 @@ function Contact() {
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full px-4 py-3 min-h-[44px] border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 text-base"
+                className="w-full px-4 py-3 min-h-[44px] border border-gray-200  rounded-xl focus:outline-none focus:ring-2 focus:ring-black  text-base"
                 placeholder="What is this about?"
               />
             </div>
@@ -315,7 +316,7 @@ function Contact() {
             <div>
               <label 
                 htmlFor="message" 
-                className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-semibold text-gray-700  mb-2"
               >
                 Message *
               </label>
@@ -325,20 +326,20 @@ function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 rows={5}
-                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-gray-200 resize-none text-base ${
+                className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2  resize-none text-base ${
                   errors.message 
                     ? 'border-red-500 focus:ring-red-500' 
-                    : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                    : 'border-gray-200  focus:ring-black'
                 }`}
                 placeholder="Write your message here..."
               />
               {errors.message && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                <p className="mt-1 text-sm text-red-600">
                   {errors.message}
                 </p>
               )}
               {/* Character count helper */}
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              <p className="mt-1 text-xs text-gray-500 ">
                 {formData.message.length} characters (minimum 6 required)
               </p>
             </div>
@@ -350,14 +351,14 @@ function Contact() {
             */}
             <button
               type="submit"
-              className="w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors text-base"
+              className="w-full flex items-center justify-center space-x-2 px-6 py-3 min-h-[44px] bg-black text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors text-base"
             >
               <Send size={20} />
               <span>Send Message</span>
             </button>
 
             {/* Required fields note */}
-            <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+            <p className="text-xs text-gray-500  text-center">
               * Required fields
             </p>
           </form>
@@ -370,16 +371,16 @@ function Contact() {
         <div className="space-y-6">
           
           {/* Library Address */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="bg-white  rounded-xl shadow-md p-6">
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                <MapPin className="text-blue-600 dark:text-blue-400" size={24} />
+              <div className="flex-shrink-0 p-3 bg-gray-100 rounded-xl">
+                <MapPin className="text-black" size={24} />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                <h3 className="text-lg font-semibold text-black  mb-2">
                   Library Address
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-gray-600 ">
                   University Library Building<br />
                   Main Campus, Room 101<br />
                   City, State 12345
@@ -389,16 +390,16 @@ function Contact() {
           </div>
 
           {/* Email Contact */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="bg-white  rounded-xl shadow-md p-6">
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 p-3 bg-green-100 dark:bg-green-900 rounded-lg">
-                <Mail className="text-green-600 dark:text-green-400" size={24} />
+              <div className="flex-shrink-0 p-3 bg-gray-100 rounded-xl">
+                <Mail className="text-black" size={24} />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                <h3 className="text-lg font-semibold text-black  mb-2">
                   Email Us
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-gray-600 ">
                   abdullah.khan1010@gmail.com<br />
                   support@booknest.com
                 </p>
@@ -407,16 +408,16 @@ function Contact() {
           </div>
 
           {/* Phone Contact */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="bg-white  rounded-xl shadow-md p-6">
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
-                <Phone className="text-purple-600 dark:text-purple-400" size={24} />
+              <div className="flex-shrink-0 p-3 bg-gray-100 rounded-xl">
+                <Phone className="text-black" size={24} />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                <h3 className="text-lg font-semibold text-black  mb-2">
                   Call Us
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-gray-600 ">
                   Main: (555) 123-4567<br />
                   Support: (555) 123-4568
                 </p>
@@ -425,16 +426,16 @@ function Contact() {
           </div>
 
           {/* Operating Hours */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div className="bg-white  rounded-xl shadow-md p-6">
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 p-3 bg-orange-100 dark:bg-orange-900 rounded-lg">
-                <Clock className="text-orange-600 dark:text-orange-400" size={24} />
+              <div className="flex-shrink-0 p-3 bg-gray-100 rounded-xl">
+                <Clock className="text-black" size={24} />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                <h3 className="text-lg font-semibold text-black  mb-2">
                   Operating Hours
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-gray-600 ">
                   Monday - Friday: 8:00 AM - 8:00 PM<br />
                   Saturday: 9:00 AM - 5:00 PM<br />
                   Sunday: Closed
@@ -443,6 +444,7 @@ function Contact() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

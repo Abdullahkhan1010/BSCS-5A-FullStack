@@ -135,7 +135,7 @@ function Navbar() {
             to="/" 
             className="flex items-center space-x-2.5 text-xl font-semibold text-black tracking-tight"
           >
-            <div className="bg-black p-1.5 rounded-lg">
+            <div className="bg-black p-1.5 rounded-xl">
               <BookOpen size={22} className="text-white" />
             </div>
             <span className="hidden sm:inline">BookNest</span>
@@ -148,7 +148,7 @@ function Navbar() {
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  `px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                     isActive
                       ? 'bg-black text-white' 
                       : 'text-gray-700 hover:bg-gray-100'
@@ -166,7 +166,7 @@ function Navbar() {
             {/* Wishlist Button */}
             <Link
               to="/wishlist"
-              className="relative p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
+              className="relative p-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-all"
               aria-label="View wishlist"
             >
               <Heart size={20} />
@@ -180,7 +180,7 @@ function Navbar() {
             {/* Cart Button */}
             <Link
               to="/reservations"
-              className="relative p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
+              className="relative p-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-all"
               aria-label="View cart"
             >
               <ShoppingCart size={20} />
@@ -194,7 +194,7 @@ function Navbar() {
             {/* History Button */}
             <Link
               to="/history"
-              className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
+              className="p-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-all"
               aria-label="View borrowing history"
             >
               <History size={20} />
@@ -203,7 +203,7 @@ function Navbar() {
             {/* Theme Toggle - Keep but make subtle */}
             <button
               onClick={toggleTheme}
-              className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all hidden md:block"
+              className="p-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-all hidden md:block"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
@@ -213,13 +213,13 @@ function Navbar() {
             <div className="hidden md:flex items-center space-x-2">
               {isAuthenticated() ? (
                 <>
-                  <div className="flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 rounded-lg">
+                  <div className="flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 rounded-xl">
                     <User size={16} className="text-gray-600" />
                     <span className="text-sm font-medium text-gray-700">{user.username}</span>
                   </div>
                   <button
                     onClick={logout}
-                    className="flex items-center space-x-1.5 px-3 py-1.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-all text-sm font-medium"
+                    className="flex items-center space-x-1.5 px-3 py-1.5 bg-black text-white rounded-xl hover:bg-gray-800 transition-all text-sm font-medium"
                   >
                     <LogOut size={16} />
                     <span>Logout</span>
@@ -228,7 +228,7 @@ function Navbar() {
               ) : (
                 <Link
                   to="/login"
-                  className="flex items-center space-x-1.5 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-all text-sm font-medium"
+                  className="flex items-center space-x-1.5 px-4 py-2 bg-black text-white rounded-xl hover:bg-gray-800 transition-all text-sm font-medium"
                 >
                   <User size={16} />
                   <span>Login</span>
@@ -239,7 +239,7 @@ function Navbar() {
             {/* Mobile Menu Toggle (Hamburger) */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
+              className="md:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-all"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -258,7 +258,7 @@ function Navbar() {
                   to={link.to}
                   onClick={closeMobileMenu}
                   className={({ isActive }) =>
-                    `px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                    `px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                       isActive
                         ? 'bg-black text-white'
                         : 'text-gray-700 hover:bg-gray-100'
@@ -274,13 +274,13 @@ function Navbar() {
             <div className="mt-4 pt-4 border-t border-gray-200">
               {isAuthenticated() ? (
                 <div className="space-y-2">
-                  <div className="flex items-center space-x-2 px-4 py-2 bg-gray-100 rounded-lg">
+                  <div className="flex items-center space-x-2 px-4 py-2 bg-gray-100 rounded-xl">
                     <User size={18} className="text-gray-600" />
                     <span className="font-medium text-gray-700">{user.username}</span>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-all font-medium"
+                    className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-black text-white rounded-xl hover:bg-gray-800 transition-all font-medium"
                   >
                     <LogOut size={18} />
                     <span>Logout</span>
@@ -290,7 +290,7 @@ function Navbar() {
                 <Link
                   to="/login"
                   onClick={closeMobileMenu}
-                  className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-all font-medium"
+                  className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-black text-white rounded-xl hover:bg-gray-800 transition-all font-medium"
                 >
                   <User size={18} />
                   <span>Login</span>

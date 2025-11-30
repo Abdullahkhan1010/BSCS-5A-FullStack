@@ -338,25 +338,27 @@ function Reservations() {
    */
   if (cart.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-black  mb-6">
           My Reservations
         </h1>
         
         <div className="text-center py-12">
           <ShoppingCart size={64} className="mx-auto text-gray-400 mb-4" />
-          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          <h2 className="text-2xl font-semibold text-black  mb-2">
             Your cart is empty
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-600  mb-6">
             Browse books and add them to your cart to make a reservation.
           </p>
           <a
             href="/browse"
-            className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-block px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
           >
             Browse Books
           </a>
+        </div>
         </div>
       </div>
     );
@@ -366,14 +368,15 @@ function Reservations() {
    * STEP 10: Render Cart with Books
    */
   return (
-    <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
       
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200">
+        <h1 className="text-2xl md:text-3xl font-bold text-black ">
           My Reservations
         </h1>
-        <div className="flex items-center space-x-2 px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg">
+        <div className="flex items-center space-x-2 px-4 py-2 bg-black text-white rounded-xl">
           <ShoppingCart size={20} />
           <span className="font-semibold">{cart.length} {cart.length === 1 ? 'Book' : 'Books'}</span>
         </div>
@@ -383,15 +386,15 @@ function Reservations() {
         ===== RESERVATION FORM =====
         User must provide personal details before confirming reservation
       */}
-      <div className="mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+      <div className="mb-8 p-6 bg-white  rounded-xl shadow-md border border-gray-200 ">
+        <h2 className="text-xl font-semibold text-black  mb-4">
           Reservation Details
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Full Name Input */}
           <div>
-            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700  mb-1">
               <User size={16} className="inline mr-1" />
               Full Name *
             </label>
@@ -402,13 +405,13 @@ function Reservations() {
               value={formData.fullName}
               onChange={handleInputChange}
               placeholder="Enter your full name"
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none
+              className={`w-full px-4 py-2 border rounded-xl focus:ring-2 focus:outline-none
                 ${formErrors.fullName 
                   ? 'border-red-500 focus:ring-red-500' 
-                  : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                  : 'border-gray-200 focus:ring-black'
                 }
-                bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200
-                placeholder-gray-400 dark:placeholder-gray-500`}
+                bg-white text-black 
+                placeholder-gray-400`}
             />
             {formErrors.fullName && (
               <p className="text-red-500 text-sm mt-1">{formErrors.fullName}</p>
@@ -417,7 +420,7 @@ function Reservations() {
 
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700  mb-1">
               <Mail size={16} className="inline mr-1" />
               Email Address *
             </label>
@@ -428,13 +431,13 @@ function Reservations() {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="your.email@example.com"
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none
+              className={`w-full px-4 py-2 border rounded-xl focus:ring-2 focus:outline-none
                 ${formErrors.email 
                   ? 'border-red-500 focus:ring-red-500' 
-                  : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                  : 'border-gray-200  focus:ring-black'
                 }
-                bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200
-                placeholder-gray-400 dark:placeholder-gray-500`}
+                bg-white text-black 
+                placeholder-gray-400`}
             />
             {formErrors.email && (
               <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
@@ -443,7 +446,7 @@ function Reservations() {
 
           {/* Pickup Date Input */}
           <div>
-            <label htmlFor="pickupDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="pickupDate" className="block text-sm font-medium text-gray-700  mb-1">
               <Calendar size={16} className="inline mr-1" />
               Pickup Date *
             </label>
@@ -454,24 +457,24 @@ function Reservations() {
               value={formData.pickupDate}
               onChange={handleInputChange}
               min={getMinPickupDate()}
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none
+              className={`w-full px-4 py-2 border rounded-xl focus:ring-2 focus:outline-none
                 ${formErrors.pickupDate 
                   ? 'border-red-500 focus:ring-red-500' 
-                  : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                  : 'border-gray-200  focus:ring-black'
                 }
-                bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200`}
+                bg-white text-black `}
             />
             {formErrors.pickupDate && (
               <p className="text-red-500 text-sm mt-1">{formErrors.pickupDate}</p>
             )}
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-xs text-gray-500  mt-1">
               Minimum 24 hours from now
             </p>
           </div>
 
           {/* Membership ID Input */}
           <div>
-            <label htmlFor="membershipId" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="membershipId" className="block text-sm font-medium text-gray-700  mb-1">
               <IdCard size={16} className="inline mr-1" />
               Membership ID *
             </label>
@@ -482,13 +485,13 @@ function Reservations() {
               value={formData.membershipId}
               onChange={handleInputChange}
               placeholder="e.g., LIB-12345"
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none
+              className={`w-full px-4 py-2 border rounded-xl focus:ring-2 focus:outline-none
                 ${formErrors.membershipId 
                   ? 'border-red-500 focus:ring-red-500' 
-                  : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                  : 'border-gray-200  focus:ring-black'
                 }
-                bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200
-                placeholder-gray-400 dark:placeholder-gray-500`}
+                bg-white text-black 
+                placeholder-gray-400`}
             />
             {formErrors.membershipId && (
               <p className="text-red-500 text-sm mt-1">{formErrors.membershipId}</p>
@@ -502,13 +505,13 @@ function Reservations() {
         Shows if cart is at max capacity (5 books)
       */}
       {cart.length >= 5 && (
-        <div className="mb-6 p-4 bg-yellow-100 dark:bg-yellow-900 border border-yellow-400 dark:border-yellow-600 rounded-lg flex items-start space-x-3">
-          <AlertCircle className="text-yellow-600 dark:text-yellow-400 flex-shrink-0" size={24} />
+        <div className="mb-6 p-4 bg-gray-100 border border-gray-300 rounded-xl flex items-start space-x-3">
+          <AlertCircle className="text-black flex-shrink-0" size={24} />
           <div>
-            <p className="font-semibold text-yellow-800 dark:text-yellow-200">
+            <p className="font-semibold text-black">
               Maximum Reservation Limit Reached
             </p>
-            <p className="text-sm text-yellow-700 dark:text-yellow-300">
+            <p className="text-sm text-gray-700">
               You can reserve a maximum of 5 books at a time. Remove a book to add another.
             </p>
           </div>
@@ -519,12 +522,12 @@ function Reservations() {
         Pickup Date Information
         Shows when books will be ready for pickup (from form or tomorrow)
       */}
-      <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-        <div className="flex items-center space-x-2 text-green-700 dark:text-green-400">
+      <div className="mb-6 p-4 bg-gray-100 border border-gray-200 rounded-xl">
+        <div className="flex items-center space-x-2 text-black">
           <Calendar size={20} />
           <span className="font-semibold">Pickup Date: {getPickupDate()}</span>
         </div>
-        <p className="text-sm text-green-600 dark:text-green-500 mt-1">
+        <p className="text-sm text-gray-700 mt-1">
           Books will be ready for pickup at the University Library
         </p>
       </div>
@@ -544,7 +547,7 @@ function Reservations() {
            */
           <div 
             key={book.id} 
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6"
+            className="bg-white  rounded-xl shadow-md p-4 md:p-6"
           >
             {/* 
               Book Layout: Image + Details
@@ -557,7 +560,7 @@ function Reservations() {
                 <img
                   src={book.coverUrl}
                   alt={`${book.title} cover`}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover rounded-xl"
                   onError={(e) => {
                     e.target.src = 'https://via.placeholder.com/128x160?text=No+Cover';
                   }}
@@ -568,15 +571,15 @@ function Reservations() {
               <div className="flex-1">
                 
                 {/* Title and Author */}
-                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-1">
+                <h3 className="text-xl font-bold text-black  mb-1">
                   {book.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-3">
+                <p className="text-gray-600  mb-3">
                   by {book.author}
                 </p>
 
                 {/* Category Badge */}
-                <span className="inline-block px-2 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900 rounded mb-4">
+                <span className="inline-block px-2 py-1 text-xs font-semibold text-black bg-gray-100 rounded mb-4">
                   {book.category}
                 </span>
 
@@ -585,14 +588,14 @@ function Reservations() {
                   Dropdown to select 7, 14, or 21 days
                 */}
                 <div className="mb-3">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700  mb-2">
                     <Clock size={16} className="inline mr-1" />
                     Borrow Duration
                   </label>
                   <select
                     value={durations[book.id] || 7}
                     onChange={(e) => handleDurationChange(book.id, Number(e.target.value))}
-                    className="w-full md:w-48 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                    className="w-full md:w-48 px-3 py-2 border border-gray-200  rounded-xl focus:outline-none focus:ring-2 focus:ring-black "
                   >
                     <option value={7}>7 days</option>
                     <option value={14}>14 days</option>
@@ -605,7 +608,7 @@ function Reservations() {
                   Shows when book must be returned
                   Calculated based on selected duration
                 */}
-                <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <div className="flex items-center space-x-2 text-sm text-gray-600  mb-4">
                   <Calendar size={16} />
                   <span>
                     <strong>Due Date:</strong> {getDueDate(durations[book.id] || 7)}
@@ -618,7 +621,7 @@ function Reservations() {
                 */}
                 <button
                   onClick={() => handleRemove(book.id)}
-                  className="flex items-center space-x-2 px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 text-red-600 hover:bg-gray-100 rounded-xl transition-colors"
                 >
                   <Trash2 size={18} />
                   <span>Remove</span>
@@ -633,14 +636,14 @@ function Reservations() {
         ===== CONFIRMATION SECTION =====
         Summary and confirm button
       */}
-      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+      <div className="bg-gray-50  rounded-xl p-6">
         
         {/* Summary */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+          <h2 className="text-xl font-bold text-black  mb-4">
             Reservation Summary
           </h2>
-          <div className="space-y-2 text-gray-600 dark:text-gray-400">
+          <div className="space-y-2 text-gray-600 ">
             <div className="flex justify-between">
               <span>Total Books:</span>
               <span className="font-semibold">{cart.length}</span>
@@ -664,16 +667,17 @@ function Reservations() {
         */}
         <button
           onClick={handleProceedToCheckout}
-          className="w-full flex items-center justify-center space-x-2 px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg"
+          className="w-full flex items-center justify-center space-x-2 px-6 py-4 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors font-semibold text-lg"
         >
           <CheckCircle size={24} />
           <span>Proceed to Checkout</span>
         </button>
 
         {/* Info Note */}
-        <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-4">
+        <p className="text-xs text-gray-500  text-center mt-4">
           You'll review all details and accept terms before confirming your reservation.
         </p>
+      </div>
       </div>
     </div>
   );

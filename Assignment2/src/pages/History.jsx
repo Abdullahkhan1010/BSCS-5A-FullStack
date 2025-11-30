@@ -125,31 +125,31 @@ export default function History() {
   */
   if (allHistory.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
+      <div className="min-h-screen bg-gray-50  py-12 px-4">
         <div className="max-w-7xl mx-auto">
           
           {/* Page Header */}
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-2">
               Borrowing History
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 ">
               Track your reading journey
             </p>
           </div>
 
           {/* Empty State Message */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
+          <div className="bg-white  rounded-xl shadow-md p-12 text-center">
             <HistoryIcon size={64} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
+            <h2 className="text-2xl font-semibold text-black dark:text-white mb-2">
               No borrowing history yet
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-gray-600  mb-6">
               Start reserving books to build your borrowing history!
             </p>
             <button
               onClick={() => navigate('/browse')}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
             >
               Browse Books
             </button>
@@ -164,7 +164,7 @@ export default function History() {
     Shows all borrowing history records
   */
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 md:py-12 px-4 md:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50  py-8 md:py-12 px-4 md:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
         {/* 
@@ -172,10 +172,10 @@ export default function History() {
           Shows title and total count
         */}
         <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-white mb-2">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-black mb-2">
             Borrowing History
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 ">
             {allHistory.length} {allHistory.length === 1 ? 'record' : 'records'} in total
           </p>
         </div>
@@ -187,30 +187,30 @@ export default function History() {
         <div className="mb-6 flex flex-wrap gap-3">
           <button
             onClick={() => setFilterStatus('all')}
-            className={`px-4 py-2 min-h-[44px] rounded-lg font-medium transition-colors text-sm md:text-base ${
+            className={`px-4 py-2 min-h-[44px] rounded-xl font-medium transition-colors text-sm md:text-base ${
               filterStatus === 'all'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-black text-white'
+                : 'bg-white  text-gray-700  hover:bg-gray-100'
             }`}
           >
             All ({allHistory.length})
           </button>
           <button
             onClick={() => setFilterStatus('borrowed')}
-            className={`px-4 py-2 min-h-[44px] rounded-lg font-medium transition-colors text-sm md:text-base ${
+            className={`px-4 py-2 min-h-[44px] rounded-xl font-medium transition-colors text-sm md:text-base ${
               filterStatus === 'borrowed'
-                ? 'bg-orange-600 text-white'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-gray-800 text-white'
+                : 'bg-white  text-gray-700  hover:bg-gray-100'
             }`}
           >
             Borrowed ({getHistory('borrowed').length})
           </button>
           <button
             onClick={() => setFilterStatus('returned')}
-            className={`px-4 py-2 min-h-[44px] rounded-lg font-medium transition-colors text-sm md:text-base ${
+            className={`px-4 py-2 min-h-[44px] rounded-xl font-medium transition-colors text-sm md:text-base ${
               filterStatus === 'returned'
-                ? 'bg-green-600 text-white'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                ? 'bg-black text-white'
+                : 'bg-white  text-gray-700  hover:bg-gray-100'
             }`}
           >
             Returned ({getHistory('returned').length})
@@ -220,7 +220,7 @@ export default function History() {
           {allHistory.length > 0 && (
             <button
               onClick={handleClearHistory}
-              className="ml-auto px-4 py-2 min-h-[44px] bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2 text-sm md:text-base"
+              className="ml-auto px-4 py-2 min-h-[44px] bg-black text-white rounded-xl hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm md:text-base"
             >
               <Trash2 size={18} />
               <span>Clear History</span>
@@ -233,8 +233,8 @@ export default function History() {
           Shows filtered history records
         */}
         {filteredHistory.length === 0 ? (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
-            <p className="text-gray-600 dark:text-gray-400">
+          <div className="bg-white  rounded-xl shadow-md p-12 text-center">
+            <p className="text-gray-600 ">
               No {filterStatus} records found
             </p>
           </div>
@@ -246,7 +246,7 @@ export default function History() {
               return (
                 <div 
                   key={index}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                  className="bg-white  rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
                 >
                   <div className="flex flex-col md:flex-row gap-6">
                     
@@ -271,17 +271,17 @@ export default function History() {
                       
                       {/* Book Title & Author */}
                       <h3 
-                        className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-1 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+                        className="text-xl font-bold text-black  mb-1 cursor-pointer hover:text-gray-600"
                         onClick={() => navigate(`/book/${item.book.id}`)}
                       >
                         {item.book.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-400 mb-3">
+                      <p className="text-gray-600  mb-3">
                         by {item.book.author}
                       </p>
 
                       {/* Reservation ID */}
-                      <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-3">
+                      <div className="flex items-center space-x-2 text-sm text-gray-500  mb-3">
                         <BookOpen size={16} />
                         <span>Reservation ID: <strong>{item.reservationId}</strong></span>
                       </div>
@@ -291,10 +291,10 @@ export default function History() {
                         
                         {/* Borrow Date */}
                         <div className="flex items-start space-x-2">
-                          <Calendar size={18} className="text-blue-500 mt-1" />
+                          <Calendar size={18} className="text-black mt-1" />
                           <div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Borrowed</p>
-                            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            <p className="text-xs text-gray-500 ">Borrowed</p>
+                            <p className="text-sm font-semibold text-gray-700 ">
                               {formatDate(item.borrowDate)}
                             </p>
                           </div>
@@ -304,11 +304,11 @@ export default function History() {
                         <div className="flex items-start space-x-2">
                           <Clock size={18} className={overdue ? 'text-red-500 mt-1' : 'text-orange-500 mt-1'} />
                           <div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Due Date</p>
+                            <p className="text-xs text-gray-500 ">Due Date</p>
                             <p className={`text-sm font-semibold ${
                               overdue 
                                 ? 'text-red-600 dark:text-red-400' 
-                                : 'text-gray-700 dark:text-gray-300'
+                                : 'text-gray-700 '
                             }`}>
                               {formatDate(item.dueDate)}
                               {overdue && <span className="ml-2 text-xs">(OVERDUE)</span>}
@@ -319,10 +319,10 @@ export default function History() {
                         {/* Return Date (if returned) */}
                         {item.status === 'returned' && (
                           <div className="flex items-start space-x-2">
-                            <CheckCircle size={18} className="text-green-500 mt-1" />
+                            <CheckCircle size={18} className="text-green-800 mt-1" />
                             <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">Returned</p>
-                              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                              <p className="text-xs text-gray-500 ">Returned</p>
+                              <p className="text-sm font-semibold text-gray-700 ">
                                 {formatDate(item.returnDate)}
                               </p>
                             </div>
@@ -334,8 +334,8 @@ export default function History() {
                           <div className="flex items-start space-x-2">
                             <Clock size={18} className="text-gray-500 mt-1" />
                             <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">Duration</p>
-                              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                              <p className="text-xs text-gray-500 ">Duration</p>
+                              <p className="text-sm font-semibold text-gray-700 ">
                                 {item.duration} days
                               </p>
                             </div>
@@ -347,9 +347,10 @@ export default function History() {
                       <div className="flex items-center justify-between">
                         
                         {/* Status Badge */}
-                        <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                          item.status === 'returned'
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                        <span 
+                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          item.status === 'returned' 
+                            ? 'bg-green-100 text-green-900'
                             : overdue
                             ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                             : 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
@@ -361,7 +362,7 @@ export default function History() {
                         {item.status === 'borrowed' && (
                           <button
                             onClick={() => handleReturn(item.reservationId)}
-                            className="px-4 py-2 min-h-[44px] bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2 text-sm md:text-base"
+                            className="px-4 py-2 min-h-[44px] bg-black text-white rounded-xl hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm md:text-base"
                           >
                             <CheckCircle size={18} />
                             <span>Mark as Returned</span>

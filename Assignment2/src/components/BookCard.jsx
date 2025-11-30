@@ -188,8 +188,8 @@ function BookCard({ book }) {
      * Card Container
      * 
      * Tailwind Classes Explained:
-     * - bg-white/dark:bg-gray-800: Background adapts to theme
-     * - rounded-lg: Rounded corners
+     * - bg-white/: Background adapts to theme
+     * - rounded-xl: Rounded corners
      * - shadow-md: Medium shadow for depth
      * - overflow-hidden: Clips content to card boundaries
      * - transition-transform: Smooth hover animation
@@ -222,7 +222,7 @@ function BookCard({ book }) {
         */}
         <button
           onClick={handleToggleWishlist}
-          className="absolute top-3 left-3 p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-md hover:bg-white transition-all"
+          className="absolute top-3 left-3 p-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-md hover:bg-white transition-all"
           title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
         >
           <Heart 
@@ -237,7 +237,7 @@ function BookCard({ book }) {
           - Green if available, red if borrowed
           - Shows status with icon
         */}
-        <div className={`absolute top-3 right-3 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1 ${
+        <div className={`absolute top-3 right-3 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1 ${
           isAvailable 
             ? 'bg-black text-white' 
             : 'bg-gray-200 text-gray-800'
@@ -264,7 +264,7 @@ function BookCard({ book }) {
         
         {/* Category Badge */}
         <div className="mb-2">
-          <span className="inline-block px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg">
+          <span className="inline-block px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded-xl">
             {book.category}
           </span>
         </div>

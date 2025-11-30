@@ -147,7 +147,7 @@ function Home() {
             - items-center: Vertically center icon and text
             - space-x-2: Horizontal gap between icon and text
             - px-8 py-4: Large padding for prominence
-            - rounded-lg: Rounded corners
+            - rounded-xl: Rounded corners
             - transition: Smooth color change on hover
           */}
           <button
@@ -164,7 +164,8 @@ function Home() {
         ===== FEATURED BOOKS SECTION =====
         Showcase of available books to encourage exploration
       */}
-      <section className="container mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-20">
+      <section className="bg-gray-50 py-16 md:py-20">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
         
         {/* 
           Section Header
@@ -252,6 +253,7 @@ function Home() {
             <span>View All Books</span>
             <ArrowRight size={20} />
           </button>
+        </div>
         </div>
       </section>
 

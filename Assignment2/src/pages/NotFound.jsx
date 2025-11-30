@@ -80,11 +80,11 @@ function NotFound() {
           - Clear, friendly language
           - Explains what happened
         */}
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-black  mb-4">
           Page Not Found
         </h2>
         
-        <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        <p className="text-lg text-gray-600  mb-8">
           Oops! The page you're looking for doesn't exist or has been moved.
           <br />
           Let's get you back on track.
@@ -106,7 +106,7 @@ function NotFound() {
           */}
           <button
             onClick={handleGoHome}
-            className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+            className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-lg"
           >
             <Home size={20} />
             <span>Back to Home</span>
@@ -119,7 +119,7 @@ function NotFound() {
           */}
           <button
             onClick={() => navigate('/browse')}
-            className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-gray-200 dark:bg-gray-700 text-black  font-semibold rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           >
             <BookOpen size={20} />
             <span>Browse Books</span>
@@ -131,8 +131,8 @@ function NotFound() {
           - Quick links to common pages
           - Helps user find what they might have been looking for
         */}
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
-          <div className="flex items-center justify-center space-x-2 text-gray-700 dark:text-gray-300 mb-4">
+        <div className="bg-gray-50  rounded-xl p-6">
+          <div className="flex items-center justify-center space-x-2 text-gray-700  mb-4">
             <Search size={20} />
             <h3 className="text-lg font-semibold">
               Looking for something? Try these:
@@ -147,25 +147,25 @@ function NotFound() {
           <div className="flex flex-wrap justify-center gap-3">
             <button
               onClick={() => navigate('/')}
-              className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
+              className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200  rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
             >
               Home
             </button>
             <button
               onClick={() => navigate('/browse')}
-              className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
+              className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200  rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
             >
               Browse Books
             </button>
             <button
               onClick={() => navigate('/reservations')}
-              className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
+              className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200  rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
             >
               My Reservations
             </button>
             <button
               onClick={() => navigate('/contact')}
-              className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
+              className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200  rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
             >
               Contact Us
             </button>
@@ -176,7 +176,7 @@ function NotFound() {
           Additional Help Text
           - Provides contact information if user is still lost
         */}
-        <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-8 text-sm text-gray-500 ">
           Still can't find what you're looking for?{' '}
           <button
             onClick={() => navigate('/contact')}
