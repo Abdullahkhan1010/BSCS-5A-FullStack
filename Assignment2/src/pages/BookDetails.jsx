@@ -145,10 +145,36 @@ function BookDetails() {
   const inWishlist = isInWishlist(book.id);
 
   /**
-   * Find current borrower for this book (if borrowed)
-   * Look for active borrowing in history that matches this book
+   * Helper function to get ALL users' borrowing histories
+   * This ensures we find the actual borrower even if it's a different user
    */
-  const currentBorrowing = history.find(
+  const getAllUsersHistory = () => {
+    const allHistories = [];
+    
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      
+      if (key && key.startsWith('booknest-history-')) {
+        try {
+          const userHistory = JSON.parse(localStorage.getItem(key));
+          if (Array.isArray(userHistory)) {
+            allHistories.push(...userHistory);
+          }
+        } catch (error) {
+          console.error(`Error parsing history from ${key}:`, error);
+        }
+      }
+    }
+    
+    return allHistories;
+  };
+
+  /**
+   * Find current borrower for this book (if borrowed)
+   * Look for active borrowing in ALL users' histories (not just current user)
+   * This ensures we show the correct return date regardless of who borrowed it
+   */
+  const currentBorrowing = getAllUsersHistory().find(
     item => item.book.id === book.id && item.status === 'borrowed'
   );
 
@@ -167,7 +193,8 @@ function BookDetails() {
    * STEP 6: Calculate Available Date
    * 
    * For borrowed books, show when they'll be available.
-   * Use actual due date from current borrowing if available, otherwise mock 7 days.
+   * Use actual due date from current borrowing if available (INCLUDING extensions), otherwise mock 7 days.
+   * The dueDate in currentBorrowing is automatically updated when user extends, so this always shows correct date.
    */
   const availableDate = currentBorrowing 
     ? new Date(currentBorrowing.dueDate).toLocaleDateString('en-US', {
