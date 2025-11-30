@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear BookNest Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .success {
+            color: #10b981;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+        }
+        .info {
+            color: #6b7280;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        ul {
+            text-align: left;
+            color: #4b5563;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Clear BookNest Storage</h1>
+        <p>This will remove all stored data including:</p>
+        <ul>
+            <li>User login sessions</li>
+            <li>Cart items (all users)</li>
+            <li>Borrowing history (all users)</li>
+            <li>Future bookings</li>
+            <li>Theme preferences</li>
+        </ul>
+        
+        <button onclick="clearStorage()">Clear All Data</button>
+        <button onclick="clearBookingDataOnly()">Clear Only Booking Data</button>
+        
+        <div class="success" id="message"></div>
+        
+        <div class="info">
+            After clearing, refresh your BookNest application.
+        </div>
+    </div>
+
+    <script>
+        function clearStorage() {
+            // Clear all localStorage
+            localStorage.clear();
+            
+            const message = document.getElementById('message');
+            message.textContent = '✅ All storage cleared! Please refresh your BookNest app.';
+            message.style.display = 'block';
+            
+            // List what was cleared
+            console.log('Cleared all localStorage data');
+        }
+
+        function clearBookingDataOnly() {
+            // Get all localStorage keys
+            const keys = Object.keys(localStorage);
+            
+            // Clear only booknest-related data
+            keys.forEach(key => {
+                if (key.startsWith('booknest-')) {
+                    localStorage.removeItem(key);
+                    console.log('Removed:', key);
+                }
+            });
+            
+            const message = document.getElementById('message');
+            message.textContent = '✅ All BookNest data cleared! Please refresh your app.';
+            message.style.display = 'block';
+        }
+
+        // Show current storage on console
+        console.log('Current localStorage keys:', Object.keys(localStorage));
+    </script>
+</body>
+</html>

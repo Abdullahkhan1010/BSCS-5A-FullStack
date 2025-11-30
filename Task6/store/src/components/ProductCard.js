@@ -1,7 +1,15 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/actions/cartActions';
 
 // Modern, clean ProductCard component that receives name, description, and price as props
 function ProductCard({ name, description, price }) {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ name, description, price }));
+  };
+
   return (
     <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 border border-gray-100">
       {/* Product Icon */}
@@ -21,8 +29,11 @@ function ProductCard({ name, description, price }) {
         <span className="text-sm text-gray-500">USD</span>
       </div>
       
-      {/* Add to Cart Button */}
-      <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl w-full font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-md">
+      {/* Add to Cart Button with Redux */}
+      <button 
+        onClick={handleAddToCart}
+        className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl w-full font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-md"
+      >
         Add to Cart
       </button>
     </div>

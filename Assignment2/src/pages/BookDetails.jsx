@@ -21,9 +21,10 @@
  */
 
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, CheckCircle, XCircle, Calendar, BookOpen, User, Hash, Tag, Heart, Building2, CalendarDays, FileText } from 'lucide-react';
+import { ArrowLeft, Star, CheckCircle, XCircle, Calendar, BookOpen, User, Hash, Tag, Heart, Building2, CalendarDays, FileText, Clock } from 'lucide-react';
 import { useBooks } from '../context/BookContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
 function BookDetails() {
@@ -57,8 +58,11 @@ function BookDetails() {
    * - getBookById: Function to find book by ID
    * - addToCart: Function to add book to cart
    * - isInCart: Function to check if book is already in cart
+   * - history: Array of borrowing history to find current borrower
+   * - bookForLater: Function to book a borrowed book for later
+   * - getUserBooking: Function to check if user already booked this book
    */
-  const { getBookById, addToCart, isInCart } = useBooks();
+  const { getBookById, addToCart, isInCart, history, bookForLater, getUserBooking } = useBooks();
 
   /**
    * Get Wishlist Functions from Context
@@ -67,6 +71,16 @@ function BookDetails() {
    * - isInWishlist: Function to check if book is in wishlist
    */
   const { toggleWishlist, isInWishlist } = useWishlist();
+
+  /**
+   * Get current user from Auth Context
+   */
+  const { user } = useAuth();
+
+  /**
+   * Get Toast notification function
+   */
+  const { showToast } = useToast();
 
   /**
    * STEP 3: Find the Specific Book
@@ -131,27 +145,41 @@ function BookDetails() {
   const inWishlist = isInWishlist(book.id);
 
   /**
-   * STEP 6: Calculate Mock Available Date
+   * Find current borrower for this book (if borrowed)
+   * Look for active borrowing in history that matches this book
+   */
+  const currentBorrowing = history.find(
+    item => item.book.id === book.id && item.status === 'borrowed'
+  );
+
+  /**
+   * Check if book is currently borrowed
+   * Either from history (app-borrowed) or from book status (pre-borrowed in JSON)
+   */
+  const isBorrowed = !isAvailable || currentBorrowing;
+
+  /**
+   * Check if current user has already booked this book for later
+   */
+  const userBooking = user ? getUserBooking(book.id, user.username) : null;
+
+  /**
+   * STEP 6: Calculate Available Date
    * 
    * For borrowed books, show when they'll be available.
-   * Mock logic: Available in 7 days from today.
-   * 
-   * Date Calculation:
-   * 1. new Date() - Get current date/time
-   * 2. getTime() - Convert to milliseconds since epoch
-   * 3. Add 7 days in milliseconds (7 * 24 * 60 * 60 * 1000)
-   * 4. new Date(milliseconds) - Convert back to Date object
-   * 5. toLocaleDateString() - Format as readable date
-   * 
-   * Example:
-   * Today: November 21, 2025
-   * availableDate: November 28, 2025
+   * Use actual due date from current borrowing if available, otherwise mock 7 days.
    */
-  const availableDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  const availableDate = currentBorrowing 
+    ? new Date(currentBorrowing.dueDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
 
   /**
    * STEP 7: Handle Reserve Button Click
@@ -169,6 +197,40 @@ function BookDetails() {
     const result = addToCart(book);
     if (result.success) {
       showToast('Book Reserved! Check "My Reservations" to confirm.', 'success');
+    } else {
+      showToast(result.message, 'error');
+    }
+  };
+
+  /**
+   * Handle Book for Later Button Click
+   * 
+   * When user clicks "Book for Later" on a borrowed book:
+   * 1. Check if user is logged in
+   * 2. For books borrowed through the app: use the actual reservation ID
+   * 3. For pre-borrowed books in JSON: create a mock reservation ID
+   * 4. Call bookForLater with book ID, user, and reservation ID
+   * 5. Show success or error message
+   */
+  const handleBookForLater = () => {
+    if (!user) {
+      showToast('Please login to book this book for later.', 'error');
+      return;
+    }
+
+    if (isAvailable) {
+      showToast('This book is available now! You can reserve it directly.', 'info');
+      return;
+    }
+
+    // Use actual reservation ID if borrowed through app, otherwise create mock ID
+    const reservationId = currentBorrowing 
+      ? currentBorrowing.reservationId 
+      : `SYSTEM-${book.id}-BORROWED`;
+
+    const result = bookForLater(book.id, user.username, reservationId);
+    if (result.success) {
+      showToast(result.message, 'success');
     } else {
       showToast(result.message, 'error');
     }
@@ -521,24 +583,46 @@ function BookDetails() {
           ) : (
             /* 
               STATE 3: Book is Borrowed
-              - Show disabled button
-              - Show mock available date (7 days from today)
+              - Show disabled "Currently Borrowed" button
+              - Show expected available date
+              - Show "Book for Later" button if not already booked
               
               Date Display:
               - Calendar icon for visual cue
-              - availableDate calculated earlier (current date + 7 days)
+              - availableDate from current borrowing or mock date
             */
-            <div className="flex-1">
+            <div className="flex-1 space-y-4">
               <button
                 disabled
                 className="w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-lg font-semibold text-base md:text-lg cursor-not-allowed"
               >
                 Currently Borrowed
               </button>
-              <div className="mt-4 flex items-center space-x-2 text-gray-600 dark:text-gray-400">
+              <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
                 <Calendar size={20} />
                 <span>Expected to be available by: <strong>{availableDate}</strong></span>
               </div>
+              
+              {/* Book for Later Button */}
+              {userBooking ? (
+                <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                  <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
+                    <CheckCircle size={20} />
+                    <span className="font-semibold">You have booked this book!</span>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                    You will be notified when it becomes available after {availableDate}.
+                  </p>
+                </div>
+              ) : (
+                <button
+                  onClick={handleBookForLater}
+                  className="w-full px-6 md:px-8 py-3 md:py-4 min-h-[44px] bg-blue-600 text-white rounded-lg font-semibold text-base md:text-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
+                >
+                  <Clock size={20} />
+                  <span>Book for After {availableDate}</span>
+                </button>
+              )}
             </div>
           )}
           </div>

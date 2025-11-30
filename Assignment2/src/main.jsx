@@ -40,10 +40,29 @@ import App from './App.jsx';
 
 // Import Context Providers for global state management
 import { ThemeProvider } from './context/ThemeContext.jsx';
-import { AuthProvider } from './context/AuthContext.jsx';
+import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { BookProvider } from './context/BookContext.jsx';
 import { WishlistProvider } from './context/WishlistContext.jsx';
 import { ToastProvider } from './context/ToastContext.jsx';
+
+/**
+ * AppWrapper Component
+ * 
+ * This inner component has access to AuthContext, so it can use the current user
+ * as a key for BookProvider. When user changes, BookProvider remounts with fresh data.
+ */
+function AppWrapper() {
+  const { user } = useAuth();
+  
+  return (
+    // BookProvider key ensures it remounts when user changes, loading user-specific data
+    <BookProvider key={user?.username || 'guest'}>
+      <WishlistProvider>
+        <App />
+      </WishlistProvider>
+    </BookProvider>
+  );
+}
 
 /**
  * Render the Application with Context Providers
@@ -57,7 +76,7 @@ import { ToastProvider } from './context/ToastContext.jsx';
  * 
  * <ThemeProvider>                    // Provides: theme, toggleTheme
  *   <AuthProvider>                   // Provides: user, login, logout, isAuthenticated
- *     <BookProvider>                 // Provides: books, cart, addToCart, searchBooks, etc.
+ *     <BookProvider key={username}>  // Provides: books, cart, addToCart, searchBooks, etc.
  *       <App />                      // All components inside App can access all contexts
  *     </BookProvider>
  *   </AuthProvider>
@@ -68,6 +87,11 @@ import { ToastProvider } from './context/ToastContext.jsx';
  * - Warns about deprecated features  
  * - Helps detect side effects
  * - Only runs in development, not in production build
+ * 
+ * Why key prop on BookProvider?
+ * - Forces BookProvider to remount when user changes
+ * - Ensures cart and history load user-specific data from localStorage
+ * - Prevents data bleeding between different user sessions
  * 
  * For Viva:
  * - Explain that providers give children access to global state
@@ -83,21 +107,8 @@ createRoot(document.getElementById('root')).render(
       <ToastProvider>
         {/* Auth Provider: Makes user login state available everywhere */}
         <AuthProvider>
-          {/* Book Provider: Makes book catalog and cart available everywhere */}
-          <BookProvider>
-            {/* Wishlist Provider: Makes wishlist functionality available everywhere */}
-            <WishlistProvider>
-              {/* 
-                App component and all its children can now access:
-                - useTheme() for theme management
-                - useToast() for notifications
-                - useAuth() for authentication
-                - useBooks() for book data and cart
-                - useWishlist() for wishlist management
-              */}
-              <App />
-            </WishlistProvider>
-          </BookProvider>
+          {/* AppWrapper accesses user and applies it as key to BookProvider */}
+          <AppWrapper />
         </AuthProvider>
       </ToastProvider>
     </ThemeProvider>

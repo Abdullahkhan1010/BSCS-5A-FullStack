@@ -27,6 +27,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 // Import the mock book data
 import booksData from '../assets/books.json';
+// Import useAuth to get current user
+import { useAuth } from './AuthContext';
 
 // Step 1: Create the Context
 const BookContext = createContext();
@@ -36,11 +38,16 @@ const BookContext = createContext();
  * 
  * Wraps the application to provide book and cart functionality.
  * Loads book data and manages the reservation cart with persistence.
+ * Now user-specific: Each user has their own history and bookings.
  * 
  * @param {Object} props - Component props
  * @param {React.ReactNode} props.children - Child components
  */
 export function BookProvider({ children }) {
+  // Get current user to scope data per user
+  const { user } = useAuth();
+  const userId = user?.username || 'guest';
+
   /**
    * Books State
    * 
@@ -57,21 +64,22 @@ export function BookProvider({ children }) {
    * Array of book objects that user intends to borrow.
    * 
    * Initial value loads from localStorage to restore previous cart.
+   * Now user-specific: Each user has their own cart.
    * Format: [{ id, title, author, coverUrl, ... }, ...]
    */
-  const [cart, setCart] = useState(() => {
-    // Try to load saved cart from localStorage
-    const savedCart = localStorage.getItem('booknest-cart');
-    
-    // Parse JSON string back to array, or return empty array if no saved cart
+  const getInitialCart = () => {
+    const savedCart = localStorage.getItem(`booknest-cart-${userId}`);
     return savedCart ? JSON.parse(savedCart) : [];
-  });
+  };
+
+  const [cart, setCart] = useState(getInitialCart);
 
   /**
    * History State (Borrowing History)
    * 
    * Stores completed reservations/borrowings with full details.
    * Allows users to view their past borrowing activity.
+   * Now user-specific: Each user has their own history.
    * 
    * Each history item includes:
    * - book: The book object
@@ -86,10 +94,36 @@ export function BookProvider({ children }) {
    */
   const [history, setHistory] = useState(() => {
     try {
-      const savedHistory = localStorage.getItem('booknest-history');
+      const savedHistory = localStorage.getItem(`booknest-history-${userId}`);
       return savedHistory ? JSON.parse(savedHistory) : [];
     } catch (error) {
       console.error('Error loading history from localStorage:', error);
+      return [];
+    }
+  });
+
+  /**
+   * Future Bookings State
+   * 
+   * Stores bookings for books that are currently borrowed.
+   * Allows users to reserve a book for after the current borrower's return date.
+   * This is a GLOBAL state (not user-specific) because bookings affect all users.
+   * 
+   * Each booking includes:
+   * - bookId: The book ID being booked
+   * - userId: Username of the person booking
+   * - bookingDate: When the booking was made
+   * - expectedReturnDate: When current borrower is expected to return
+   * - reservationId: The reservation ID of the current borrower
+   * 
+   * Initial value loads from localStorage to persist bookings.
+   */
+  const [futureBookings, setFutureBookings] = useState(() => {
+    try {
+      const savedBookings = localStorage.getItem('booknest-future-bookings');
+      return savedBookings ? JSON.parse(savedBookings) : [];
+    } catch (error) {
+      console.error('Error loading future bookings from localStorage:', error);
       return [];
     }
   });
@@ -103,22 +137,68 @@ export function BookProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   /**
-   * useEffect: Load Books on Mount
+   * Helper function to get all borrowing histories from all users
+   * This ensures book stock is shared across all accounts
+   */
+  const getAllUsersHistory = () => {
+    const allHistories = [];
+    
+    // Iterate through all localStorage keys to find all user histories
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      
+      // Check if this is a history key (format: booknest-history-{username})
+      if (key && key.startsWith('booknest-history-')) {
+        try {
+          const userHistory = JSON.parse(localStorage.getItem(key));
+          if (Array.isArray(userHistory)) {
+            allHistories.push(...userHistory);
+          }
+        } catch (error) {
+          console.error(`Error parsing history from ${key}:`, error);
+        }
+      }
+    }
+    
+    return allHistories;
+  };
+
+  /**
+   * useEffect: Load Books on Mount and Update Stock
    * 
-   * Runs once when component first renders (empty dependency array []).
-   * Loads book data from the imported JSON file.
+   * Runs when component mounts or when any user's history changes.
+   * Loads book data and adjusts availability based on ALL users' borrowed books.
+   * This ensures stock is shared globally across all accounts.
    * 
-   * In a real app, this would be an async API call:
-   * const response = await fetch('/api/books');
-   * const data = await response.json();
+   * In a real app, this would be an API call to get current stock from server.
    */
   useEffect(() => {
-    // Simulate loading delay (optional, for realism)
-    // In production, this would be actual API loading time
     const loadBooks = () => {
       try {
-        // Set the books from imported JSON data
-        setBooks(booksData);
+        // Get ALL borrowed books from ALL users
+        const allHistories = getAllUsersHistory();
+        
+        // Load books and adjust availability based on ALL borrowed books
+        const adjustedBooks = booksData.map(book => {
+          // Count how many times this book is currently borrowed by ANY user
+          const borrowedCount = allHistories.filter(
+            item => item.book.id === book.id && item.status === 'borrowed'
+          ).length;
+          
+          // Calculate available copies (shared globally)
+          const availableCopies = Math.max(0, book.copiesAvailable - borrowedCount);
+          
+          // Update status if all copies are borrowed
+          const status = availableCopies === 0 ? 'Borrowed' : 'Available';
+          
+          return {
+            ...book,
+            copiesAvailable: availableCopies,
+            status: status
+          };
+        });
+        
+        setBooks(adjustedBooks);
         setLoading(false);
       } catch (error) {
         console.error('Error loading books:', error);
@@ -128,38 +208,53 @@ export function BookProvider({ children }) {
 
     // Small delay to simulate network request (optional)
     setTimeout(loadBooks, 300);
-  }, []); // Empty array = run once on mount
+  }, [history]); // Rerun when current user's history changes to update book availability
 
   /**
    * useEffect: Persist Cart to localStorage
    * 
-   * Whenever cart changes, save it to localStorage.
+   * Whenever cart changes, save it to user-specific localStorage.
    * This ensures reservations persist across:
    * - Page refreshes
    * - Browser restarts
    * - Navigation between pages
+   * Each user has their own cart.
    * 
-   * Runs every time 'cart' array changes.
+   * Runs every time 'cart' or 'userId' changes.
    */
   useEffect(() => {
-    // Save cart to localStorage as JSON string
-    // localStorage only stores strings, so we stringify the array
-    localStorage.setItem('booknest-cart', JSON.stringify(cart));
-  }, [cart]); // Dependency: runs when cart changes
+    // Save cart to user-specific localStorage key
+    localStorage.setItem(`booknest-cart-${userId}`, JSON.stringify(cart));
+  }, [cart, userId]); // Dependency: runs when cart or userId changes
 
   /**
    * useEffect: Persist History to localStorage
    * 
-   * Whenever history changes, save it to localStorage.
+   * Whenever history changes, save it to user-specific localStorage.
    * This ensures borrowing history persists across sessions.
+   * Each user has their own history.
    */
   useEffect(() => {
     try {
-      localStorage.setItem('booknest-history', JSON.stringify(history));
+      localStorage.setItem(`booknest-history-${userId}`, JSON.stringify(history));
     } catch (error) {
       console.error('Error saving history to localStorage:', error);
     }
-  }, [history]); // Dependency: runs when history changes
+  }, [history, userId]); // Dependency: runs when history or userId changes
+
+  /**
+   * useEffect: Persist Future Bookings to localStorage
+   * 
+   * Whenever futureBookings changes, save it to localStorage.
+   * This ensures bookings persist across sessions.
+   */
+  useEffect(() => {
+    try {
+      localStorage.setItem('booknest-future-bookings', JSON.stringify(futureBookings));
+    } catch (error) {
+      console.error('Error saving future bookings to localStorage:', error);
+    }
+  }, [futureBookings]); // Dependency: runs when futureBookings changes
 
   /**
    * addToCart Function
@@ -446,12 +541,37 @@ export function BookProvider({ children }) {
    * 
    * Extends the due date by 7 days (one-time only).
    * Can only extend if not already extended and book is still borrowed.
+   * Cannot extend if there's a future booking waiting for this book.
+   * Checks bookings by both reservationId AND bookId to ensure cross-user blocking.
    * 
    * @param {string} reservationId - The reservation ID to extend
    * @returns {Object} Result with success status and message
    */
   const extendBorrowingPeriod = (reservationId) => {
     try {
+      // Find the borrowing item in current user's history to get the book ID
+      const borrowingItem = history.find(item => item.reservationId === reservationId);
+      
+      if (!borrowingItem) {
+        return {
+          success: false,
+          message: 'Reservation not found'
+        };
+      }
+
+      // Check if there's a future booking for this reservation OR this book
+      // This ensures bookings from other users (who might not know the reservationId) also block extension
+      const hasBooking = futureBookings.some(booking => 
+        booking.reservationId === reservationId || booking.bookId === borrowingItem.book.id
+      );
+      
+      if (hasBooking) {
+        return {
+          success: false,
+          message: 'Cannot extend: Someone has already booked this book for after your return date.'
+        };
+      }
+
       let extended = false;
       let message = '';
 
@@ -613,6 +733,119 @@ export function BookProvider({ children }) {
   };
 
   /**
+   * bookForLater Function
+   * 
+   * Books a borrowed book for after the current borrower's return date.
+   * Allows users to reserve a spot in line for a currently borrowed book.
+   * 
+   * @param {number} bookId - The book ID to book
+   * @param {string} userId - The username of the person booking
+   * @param {string} reservationId - The current borrower's reservation ID
+   * @returns {Object} Result with success status and message
+   */
+  const bookForLater = (bookId, userId, reservationId) => {
+    try {
+      // Check if user already has a booking for this book
+      const existingBooking = futureBookings.find(
+        booking => booking.bookId === bookId && booking.userId === userId
+      );
+
+      if (existingBooking) {
+        return {
+          success: false,
+          message: 'You have already booked this book for later.'
+        };
+      }
+
+      // Find the current borrower's due date from history
+      const currentBorrowing = history.find(
+        item => item.reservationId === reservationId && item.status === 'borrowed'
+      );
+
+      // Use actual due date if found, otherwise use mock date (7 days from now)
+      const expectedReturnDate = currentBorrowing 
+        ? currentBorrowing.dueDate
+        : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+      // Create new booking
+      const newBooking = {
+        bookId,
+        userId,
+        bookingDate: new Date().toISOString(),
+        expectedReturnDate,
+        reservationId,
+        bookingId: `BOOK-${Math.random().toString(36).slice(2, 9).toUpperCase()}`
+      };
+
+      setFutureBookings(prev => [...prev, newBooking]);
+
+      return {
+        success: true,
+        message: 'Book successfully booked! You will be notified when it becomes available.',
+        booking: newBooking
+      };
+    } catch (error) {
+      console.error('Error booking for later:', error);
+      return {
+        success: false,
+        message: 'Failed to book for later'
+      };
+    }
+  };
+
+  /**
+   * hasFutureBooking Function
+   * 
+   * Checks if a book has any future bookings.
+   * Used to prevent extensions when someone is waiting.
+   * 
+   * @param {string} reservationId - The reservation ID to check
+   * @returns {boolean} True if there's a booking, false otherwise
+   */
+  const hasFutureBooking = (reservationId) => {
+    return futureBookings.some(booking => booking.reservationId === reservationId);
+  };
+
+  /**
+   * getUserBooking Function
+   * 
+   * Gets a user's booking for a specific book.
+   * 
+   * @param {number} bookId - The book ID
+   * @param {string} userId - The username
+   * @returns {Object|null} The booking object or null if not found
+   */
+  const getUserBooking = (bookId, userId) => {
+    return futureBookings.find(
+      booking => booking.bookId === bookId && booking.userId === userId
+    ) || null;
+  };
+
+  /**
+   * cancelFutureBooking Function
+   * 
+   * Cancels a future booking.
+   * 
+   * @param {string} bookingId - The booking ID to cancel
+   * @returns {Object} Result with success status and message
+   */
+  const cancelFutureBooking = (bookingId) => {
+    try {
+      setFutureBookings(prev => prev.filter(booking => booking.bookingId !== bookingId));
+      return {
+        success: true,
+        message: 'Booking cancelled successfully'
+      };
+    } catch (error) {
+      console.error('Error cancelling future booking:', error);
+      return {
+        success: false,
+        message: 'Failed to cancel booking'
+      };
+    }
+  };
+
+  /**
    * clearHistory Function
    * 
    * Clears all borrowing history.
@@ -648,6 +881,7 @@ export function BookProvider({ children }) {
     cart,               // Array: Books in reservation cart
     loading,            // Boolean: Is data loading?
     history,            // Array: Borrowing history
+    futureBookings,     // Array: Future bookings for borrowed books
     
     // Cart Operations
     addToCart,          // Function: Add book to cart (with validation)
@@ -665,6 +899,12 @@ export function BookProvider({ children }) {
     markAsPickedUp,            // Function: Mark reservation as picked up
     getTotalBorrowedCount,     // Function: Get lifetime borrowed count
     getCurrentlyBorrowedBooks, // Function: Get currently borrowed books
+    
+    // Future Booking Operations
+    bookForLater,           // Function: Book a borrowed book for after return date
+    hasFutureBooking,       // Function: Check if reservation has future booking
+    getUserBooking,         // Function: Get user's booking for a book
+    cancelFutureBooking,    // Function: Cancel a future booking
     
     // Book Operations
     getBookById,        // Function: Get specific book by ID

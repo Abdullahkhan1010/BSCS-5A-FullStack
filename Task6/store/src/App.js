@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import ProductsDisplay from './pages/ProductsDisplay';
 import ProductAdd from './pages/ProductAdd';
+import Cart from './pages/Cart';
 
 // App component using React Hooks (useState and useEffect)
 function App() {
@@ -75,6 +76,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ProductsDisplay products={products} />} />
         <Route path="/add" element={<ProductAdd onAddProduct={addProduct} />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );
